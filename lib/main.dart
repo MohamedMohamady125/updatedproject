@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 void main() => runApp(MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('My first app'),
+          title: Text('Yehia and Hany'),
           centerTitle: true,
           backgroundColor: Colors.lightBlue,
         ),
         body: Center(
           child: Text(
-            'hello ninjas',
+            'yehia',
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
