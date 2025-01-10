@@ -11,3 +11,15 @@ class CoachInfo(UserInfo):
     description: Optional[str] = None
     created_at: datetime
     updated_at: datetime
+    
+
+class CoachResponse(BaseModel):
+    id: int
+    speciality: str
+    experience_years: int
+    description: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True  # Enable ORM mode for SQLAlchemy models
