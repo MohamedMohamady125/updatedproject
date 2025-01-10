@@ -3,6 +3,7 @@ from typing import Optional, Dict, List
 from datetime import datetime, date
 from app.schemas.profiles.user import skillLevel, speciality
 from enum import Enum
+from app.schemas.location.enums import Governorates
 
 class Status(str, Enum):
     ACTIVE = "active"
@@ -19,6 +20,9 @@ class listingInfo(BaseModel):
     listing_type : speciality
     description : str
     status : Status
+    governorate : Governorates
+    city : str
+    location_id : int
     schedule_type : type
     sessions_per_week : int
     custom_schedule: Optional[Dict[str, List[str]]] = None  

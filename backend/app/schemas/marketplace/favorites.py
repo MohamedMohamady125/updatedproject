@@ -15,3 +15,5 @@ class FavoriteResponse(BaseModel):
     price: float
     image_url: Optional[str] = None
     added_date: datetime
+
+
