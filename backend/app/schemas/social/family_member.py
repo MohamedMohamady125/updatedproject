@@ -2,16 +2,7 @@ from pydantic import BaseModel, Field, EmailStr
 from typing import Optional
 from datetime import datetime, date
 from enum import Enum
-
-class Gender(str, Enum):
-    MALE = "male"
-    FEMALE = "female"
-    OTHER = "other"
-
-class Relationship(str, Enum):
-    SON = "son"
-    DAUGHTER = "daughter"
-    OTHER = "other"
+from app.schemas.enums_universal import Gender, Relationship
 
 class FamilyMemberInfo(BaseModel):
     member_id: int  # Unique ID for the family member

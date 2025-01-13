@@ -1,15 +1,11 @@
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 from datetime import datetime, date
-from app.schemas.profiles.user import UserInfo, speciality
-from app.schemas.payments.transactions import PaymentMethod, TransactionStatus
 from enum import Enum
+from app.schemas.enums_universal import speciality, PaymentMethod, TransactionStatus, sessionStatus
 
 
-class sessionStatus(str, Enum):
-    UPCOMING = "upcoming"
-    COMPLETED = "completed"
-    CANCELLED = "cancelled"
+
 
 class bookingInfo(BaseModel):
     booking_id : int
@@ -23,7 +19,7 @@ class bookingInfo(BaseModel):
         regex=r"^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(:\d+)?(\/[\w\-\.\/]*)*(\?[\w\-\.\=\&]*)?(\#[\w\-]*)?$",
         description="URL must be in a valid format (e.g., https://example.com)."
     )
-    
+
     session_type : speciality
     price : float
     payment_method : PaymentMethod

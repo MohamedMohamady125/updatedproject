@@ -1,7 +1,7 @@
 from pydantic import EmailStr, BaseModel, Field
 from datetime import datetime, date
 from typing import Optional, List
-from app.schemas.notifications_email.enums import DeliveryStatus,Purpose
+from app.schemas.enums_universal import DeliveryStatus, Priority, Purpose
 from pydantic import HttpUrl
 
 class EmailInfo(BaseModel):

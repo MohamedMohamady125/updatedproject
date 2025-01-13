@@ -1,8 +1,8 @@
 from pydantic import BaseModel, Field
 from typing import Optional
-from app.schemas.profiles.user import UserInfo, speciality
+from app.schemas.enums_universal import speciality
 
-class AcademyInfo(UserInfo):
+class AcademyInfo(BaseModel):
     specialty: speciality  
     coach_count: int
     business_license_url:str = Field(

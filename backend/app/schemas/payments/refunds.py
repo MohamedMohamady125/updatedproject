@@ -3,12 +3,8 @@ from enum import Enum
 from datetime import datetime, date
 from typing import Optional
 from decimal import Decimal
+from app.schemas.enums_universal import RefundTypes
 
-class RefundTypes(str, Enum):
-    BOOKING_CANCELLATION = "booking cancellation"  # Refund due to booking being canceled
-    VENDOR_PRODUCT_RETURN = "vendor product return"  # Refund due to returning a product to a vendor
-    SERVICE_ISSUE = "service issue"  # Refund due to dissatisfaction with service quality
-    SYSTEM_ERROR = "system error"  # Refund due to technical or payment system issues
 
 
 class RefundInfo(BaseModel):

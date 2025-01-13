@@ -1,9 +1,9 @@
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
-from app.schemas.profiles.user import UserInfo, skillLevel
+from app.schemas.enums_universal import skillLevel
 
-class SwimmerInfo(UserInfo):
+class SwimmerInfo(BaseModel):
     skill_level: skillLevel  
     goals: Optional[str] = None
     created_at: datetime

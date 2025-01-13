@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field, EmailStr, constr  # For schema definition
 from enum import Enum  # For enums like service types or statuses
 from typing import Optional, List  # For optional fields and lists
 from datetime import datetime  # For timestamps
-from app.schemas.notifications_email.enums import DeliveryStatus, Priority, Purpose
+from app.schemas.enums_universal import DeliveryStatus, Priority, Purpose
 
 class NotificationInfo(BaseModel):
     user_id : int

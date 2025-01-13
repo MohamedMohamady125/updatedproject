@@ -1,11 +1,8 @@
-# coding: utf-8
-from sqlalchemy import BINARY, CHAR, CheckConstraint, Column, DECIMAL, Date, DateTime, Enum, ForeignKey, Index, Integer, JSON, String, TIMESTAMP, Text, VARBINARY, text, Numeric
+from sqlalchemy import BINARY, CHAR, CheckConstraint, Column, Computed, DECIMAL, Date, DateTime, Enum, ForeignKey, Index, Integer, JSON, String, TIMESTAMP, Text, VARBINARY, text, Boolean
 from sqlalchemy.dialects.mysql import ENUM, TINYINT, VARCHAR
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import declarative_base
 from datetime import datetime
-from decimal import Decimal
 
 Base = declarative_base()
 metadata = Base.metadata
@@ -32,7 +29,6 @@ class Location(Base):
     location_id = Column(Integer, primary_key=True)
     governorate = Column(String(255), nullable=False, index=True)
     city = Column(String(255), nullable=False, index=True)
-    neighborhood = Column(String(255), index=True)
     created_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
     updated_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
 
@@ -67,6 +63,13 @@ class User(Base):
     updated_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
     deleted_at = Column(TIMESTAMP)
     is_deleted = Column(TINYINT(1), server_default=text("'0'"))
+
+    created_communities = relationship("Community", back_populates="creator", foreign_keys="[Community.creator_id]")
+    community_memberships = relationship("CommunityMember", back_populates="user", foreign_keys="[CommunityMember.user_id]")
+    posts = relationship("CommunityPost", back_populates="creator", foreign_keys="[CommunityPost.creator_id]")
+    comments = relationship("CommunityComment", back_populates="commenter", foreign_keys="[CommunityComment.commenter_id]")
+    sent_invitations = relationship("CommunityInvitation", back_populates="sender", foreign_keys="[CommunityInvitation.sender_id]")
+    received_invitations = relationship("CommunityInvitation", back_populates="recipient", foreign_keys="[CommunityInvitation.recipient_id]")
 
 
 class UserCommissionRate(Base):
@@ -202,6 +205,33 @@ class Email(Base):
     receiver = relationship('User')
 
 
+class Event(Base):
+    __tablename__ = 'event'
+    __table_args__ = (
+        CheckConstraint('(`price` >= 0)'),
+        Index('idx_location_specialty', 'location_id', 'specialty')
+    )
+
+    event_id = Column(Integer, primary_key=True)
+    title = Column(String(20, 'utf8mb4_general_ci'), nullable=False)
+    description = Column(String(500, 'utf8mb4_general_ci'), nullable=False)
+    photo = Column(String(255, 'utf8mb4_general_ci'))
+    location_id = Column(ForeignKey('locations.location_id', ondelete='CASCADE'), nullable=False)
+    price = Column(DECIMAL(10, 2), nullable=False)
+    person_performing = Column(String(20, 'utf8mb4_general_ci'), nullable=False)
+    start_date = Column(DateTime, nullable=False)
+    end_date = Column(DateTime, nullable=False)
+    specialty = Column(ENUM('swimming', 'fitness'), nullable=False)
+    booking_deadline = Column(DateTime, nullable=False)
+    user_id = Column(ForeignKey('user.user_id', ondelete='CASCADE'), nullable=False, index=True)
+    created_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
+    updated_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+    creator_type = Column(ENUM('event_organizer', 'academy', 'coach'), nullable=False, comment='Role of the event creator')
+
+    location = relationship('Location')
+    user = relationship('User')
+
+
 class EventOrganizer(Base):
     __tablename__ = 'event_organizer'
 
@@ -212,20 +242,6 @@ class EventOrganizer(Base):
 
     user = relationship('User')
 
-
-class FamilyGroup(Base):
-    __tablename__ = 'family_groups'
-
-    family_id = Column(Integer, primary_key=True)
-    primary_user_id = Column(ForeignKey('user.user_id', ondelete='CASCADE'), nullable=False, index=True)
-    family_name = Column(String(100), server_default=text("'My Family'"))
-    created_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
-    updated_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
-
-    # Keep the existing relationship with User
-    primary_user = relationship('User')
-    # Add the relationship with FamilyMember
-    members = relationship('FamilyMember', back_populates='family_group', cascade="all, delete-orphan")
 
 
 class MarketingService(Base):
@@ -267,6 +283,9 @@ class MarketplaceListing(Base):
     shipping_available = Column(TINYINT(1), server_default=text("'0'"))
     created_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
     updated_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+    delivery_time = Column(String(100, 'utf8mb4_general_ci'), comment='Estimated delivery time, e.g., 2-4 days')
+    delivery_areas = Column(String(100, 'utf8mb4_general_ci'), comment='Regions covered for delivery')
+    delivery_fee = Column(DECIMAL(10, 2), comment='Delivery cost in the listing currency')
 
     item = relationship('Item')
     user = relationship('User')
@@ -320,7 +339,24 @@ class SellerReview(Base):
     seller = relationship('User', primaryjoin='SellerReview.seller_id == User.user_id')
 
 
-class Sm(Base):
+class ShoppingCart(Base):
+    __tablename__ = 'shopping_carts'
+    __table_args__ = (
+        CheckConstraint('(`total_price` >= 0)'),
+        Index('idx_user_status', 'user_id', 'status')
+    )
+
+    cart_id = Column(Integer, primary_key=True)
+    user_id = Column(ForeignKey('user.user_id', ondelete='CASCADE'), nullable=False)
+    status = Column(ENUM('active', 'completed', 'abandoned'), server_default=text("'active'"))
+    total_price = Column(DECIMAL(10, 2), server_default=text("'0.00'"))
+    created_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
+    updated_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+
+    user = relationship('User')
+
+
+class Sms(Base):
     __tablename__ = 'sms'
     __table_args__ = (
         Index('idx_receiver_delivery_status', 'receiver_id', 'delivery_status'),
@@ -366,6 +402,26 @@ class Swimmer(Base):
     user = relationship('User')
 
 
+class Transaction(Base):
+    __tablename__ = 'transactions'
+    __table_args__ = (
+        Index('idx_user_type', 'user_id', 'transaction_type'),
+    )
+
+    transaction_id = Column(Integer, primary_key=True)
+    user_id = Column(ForeignKey('user.user_id'), nullable=False)
+    amount = Column(DECIMAL(10, 2), nullable=False)
+    transaction_type = Column(Enum('training_booking', 'event_booking', 'marketplace_purchase'), nullable=False)
+    status = Column(Enum('pending', 'completed', 'failed', 'refunded'), index=True, server_default=text("'pending'"))
+    reference_id = Column(Integer, nullable=False)
+    payment_method = Column(String(50))
+    commission_amount = Column(DECIMAL(10, 2))
+    created_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
+    updated_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+
+    user = relationship('User')
+
+
 class UserVerification(Base):
     __tablename__ = 'user_verification'
 
@@ -392,6 +448,40 @@ class Vendor(Base):
     updated_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
 
     user = relationship('User')
+
+
+class Wallet(Base):
+    __tablename__ = 'wallets'
+    __table_args__ = (
+        CheckConstraint('(`balance` >= 0)'),
+    )
+
+    wallet_id = Column(Integer, primary_key=True)
+    user_id = Column(ForeignKey('user.user_id', ondelete='CASCADE'), nullable=False, unique=True)
+    balance = Column(DECIMAL(10, 2), nullable=False, index=True, server_default=text("'0.00'"))
+    created_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
+    updated_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+
+    user = relationship('User')
+
+
+class CartItem(Base):
+    __tablename__ = 'cart_items'
+    __table_args__ = (
+        CheckConstraint('(`price` >= 0)'),
+        CheckConstraint('(`quantity` > 0)')
+    )
+
+    cart_item_id = Column(Integer, primary_key=True)
+    cart_id = Column(ForeignKey('shopping_carts.cart_id', ondelete='CASCADE'), nullable=False, index=True)
+    listing_id = Column(ForeignKey('marketplace_listings.listing_id', ondelete='CASCADE'), nullable=False, index=True)
+    quantity = Column(Integer, nullable=False, server_default=text("'1'"))
+    price = Column(DECIMAL(10, 2), nullable=False)
+    total_price = Column(DECIMAL(10, 2), Computed('((`quantity` * `price`))', persisted=True))
+    added_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
+
+    cart = relationship('ShoppingCart')
+    listing = relationship('MarketplaceListing')
 
 
 class CoachCertification(Base):
@@ -427,9 +517,9 @@ class Commission(Base):
     __table_args__ = (
         CheckConstraint('((`customer_fee_rate` >= 0) and (`customer_fee_rate` <= 100))'),
         CheckConstraint('((`default_rate` >= 0) and (`default_rate` <= 100))'),
-        Index('idx_user_type_status', 'user_type', 'status'),
+        Index('idx_vendor_user_type_status', 'vendor_id', 'user_type', 'status'),
         Index('idx_active_dates', 'active_from', 'active_to'),
-        Index('idx_vendor_user_type_status', 'vendor_id', 'user_type', 'status')
+        Index('idx_user_type_status', 'user_type', 'status')
     )
 
     commission_id = Column(Integer, primary_key=True)
@@ -450,46 +540,54 @@ class Commission(Base):
     vendor = relationship('Vendor')
 
 
-class Event(Base):
-    __tablename__ = 'event'
+
+
+
+class EventAttendance(Base):
+    __tablename__ = 'event_attendance'
     __table_args__ = (
-        CheckConstraint('(`price` >= 0)'),
-        Index('idx_location_specialty', 'location_id', 'specialty')
+        Index('idx_event_attendee', 'event_id', 'attendee_id'),
     )
 
-    event_id = Column(Integer, primary_key=True)
-    title = Column(String(20, 'utf8mb4_general_ci'), nullable=False)
-    description = Column(String(500, 'utf8mb4_general_ci'), nullable=False)
-    photo = Column(String(255, 'utf8mb4_general_ci'))
-    location_id = Column(ForeignKey('locations.location_id', ondelete='CASCADE'), nullable=False)
-    price = Column(DECIMAL(10, 2), nullable=False)
-    person_performing = Column(String(20, 'utf8mb4_general_ci'), nullable=False)
-    start_date = Column(DateTime, nullable=False)
-    end_date = Column(DateTime, nullable=False)
-    specialty = Column(ENUM('swimming', 'fitness'), nullable=False)
-    booking_deadline = Column(DateTime, nullable=False)
-    organizer_id = Column(ForeignKey('event_organizer.organizer_id', ondelete='CASCADE'), nullable=False, index=True)
+    attendance_id = Column(Integer, primary_key=True)
+    event_id = Column(ForeignKey('event.event_id', ondelete='CASCADE'), nullable=False)
+    attendee_id = Column(ForeignKey('user.user_id', ondelete='CASCADE'), nullable=False, index=True)
+    status = Column(ENUM('attended', 'no-show', 'cancelled'), index=True, server_default=text("'attended'"))
     created_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
     updated_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
 
-    location = relationship('Location')
-    organizer = relationship('EventOrganizer')
+    attendee = relationship('User')
+    event = relationship('Event')
+
 
 
 class FamilyMember(Base):
     __tablename__ = 'family_members'
 
-    member_id = Column(Integer, primary_key=True)
-    family_id = Column(ForeignKey('family_groups.family_id', ondelete='CASCADE'), nullable=False, index=True)
-    full_name = Column(String(100, 'utf8mb4_general_ci'), nullable=False)
+    member_id = Column(Integer, primary_key=True, autoincrement=True)
+    family_id = Column(Integer, ForeignKey('family_groups.family_id'), nullable=False)  # Foreign Key
+    full_name = Column(String(100), nullable=False)
     date_of_birth = Column(Date, nullable=False)
-    gender = Column(ENUM('male', 'female', 'other'), nullable=False, index=True)
-    relationship_type = Column(ENUM('son', 'daughter', 'other'), nullable=False, index=True, server_default=text("'other'"))
-    email = Column(String(100, 'utf8mb4_general_ci'))
-    created_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
-    updated_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+    gender = Column(Enum('male', 'female', 'other'), nullable=False)
+    relationship_type = Column(Enum('son', 'daughter', 'other'), default='other')  # Renamed to avoid conflict
+    email = Column(String(100), nullable=True)
+    created_at = Column(TIMESTAMP, default=datetime.utcnow)
+    updated_at = Column(TIMESTAMP, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    family_group = relationship('FamilyGroup', back_populates='members')
+    # Define the relationship
+    family_group = relationship('FamilyGroup', back_populates='members')  # Use a unique name
+
+class FamilyGroup(Base):
+    __tablename__ = 'family_groups'
+
+    family_id = Column(Integer, primary_key=True, autoincrement=True)
+    primary_user_id = Column(Integer, ForeignKey('user.user_id'), nullable=False)
+    family_name = Column(String(100), default='My Family')
+    created_at = Column(TIMESTAMP, default=datetime.utcnow)
+    updated_at = Column(TIMESTAMP, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # Define the relationship
+    members = relationship('FamilyMember', back_populates='family_group')  # Use the matching name
 
 class Listing(Base):
     __tablename__ = 'listing'
@@ -501,10 +599,10 @@ class Listing(Base):
         CheckConstraint('(`individual_price` >= 0)'),
         CheckConstraint('(`min_students` >= 0)'),
         CheckConstraint('(`sessions_per_week` > 0)'),
-        Index('idx_prices', 'individual_price', 'group_price'),
+        Index('idx_main_filter', 'type', 'status', 'age_group', 'skill_level'),
         Index('idx_schedule_sessions', 'schedule_type', 'sessions_per_week'),
-        Index('idx_coach_status', 'coach_id', 'status'),
-        Index('idx_main_filter', 'type', 'status', 'age_group', 'skill_level')
+        Index('idx_prices', 'individual_price', 'group_price'),
+        Index('idx_coach_status', 'coach_id', 'status')
     )
 
     listing_id = Column(Integer, primary_key=True)
@@ -536,8 +634,8 @@ class Listing(Base):
 class MarketingServicesPurchase(Base):
     __tablename__ = 'marketing_services_purchases'
     __table_args__ = (
-        Index('idx_user_service', 'user_id', 'mst_id'),
-        Index('idx_schedule', 'start_date', 'end_date')
+        Index('idx_schedule', 'start_date', 'end_date'),
+        Index('idx_user_service', 'user_id', 'mst_id')
     )
 
     msp_id = Column(Integer, primary_key=True)
@@ -613,6 +711,31 @@ class MarketplacePurchase(Base):
     seller = relationship('User', primaryjoin='MarketplacePurchase.seller_id == User.user_id')
 
 
+class Refund(Base):
+    __tablename__ = 'refunds'
+    __table_args__ = (
+        CheckConstraint('(`amount` > 0)'),
+        Index('idx_user_status', 'user_id', 'status')
+    )
+
+    refund_id = Column(Integer, primary_key=True)
+    transaction_id = Column(ForeignKey('transactions.transaction_id'), nullable=False, index=True)
+    user_id = Column(ForeignKey('user.user_id'), nullable=False)
+    amount = Column(DECIMAL(10, 2), nullable=False)
+    reason = Column(Text, nullable=False)
+    refund_type = Column(Enum('training', 'event', 'marketplace', 'other'), nullable=False)
+    status = Column(Enum('pending', 'approved', 'rejected', 'completed'), server_default=text("'pending'"))
+    approved_by = Column(ForeignKey('user.user_id'), index=True)
+    admin_notes = Column(Text)
+    created_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
+    updated_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
+    processed_at = Column(TIMESTAMP)
+
+    user = relationship('User', primaryjoin='Refund.approved_by == User.user_id')
+    transaction = relationship('Transaction')
+    user1 = relationship('User', primaryjoin='Refund.user_id == User.user_id')
+
+
 class SupportTicket(Base):
     __tablename__ = 'support_ticket'
     __table_args__ = (
@@ -633,21 +756,26 @@ class SupportTicket(Base):
     user = relationship('User')
 
 
-class EventAttendance(Base):
-    __tablename__ = 'event_attendance'
+class WalletTransaction(Base):
+    __tablename__ = 'wallet_transactions'
     __table_args__ = (
-        Index('idx_event_attendee', 'event_id', 'attendee_id'),
+        CheckConstraint('(`amount` > 0)'),
     )
 
-    attendance_id = Column(Integer, primary_key=True)
-    event_id = Column(ForeignKey('event.event_id', ondelete='CASCADE'), nullable=False)
-    attendee_id = Column(ForeignKey('user.user_id', ondelete='CASCADE'), nullable=False, index=True)
-    status = Column(ENUM('attended', 'no-show', 'cancelled'), index=True, server_default=text("'attended'"))
+    transaction_id = Column(Integer, primary_key=True)
+    wallet_id = Column(ForeignKey('wallets.wallet_id', ondelete='CASCADE'), nullable=False, index=True)
+    user_id = Column(ForeignKey('user.user_id', ondelete='CASCADE'), nullable=False, index=True)
+    transaction_type = Column(ENUM('deposit', 'withdrawal', 'payment', 'refund'), nullable=False, index=True)
+    amount = Column(DECIMAL(10, 2), nullable=False)
+    balance_before = Column(DECIMAL(10, 2), nullable=False)
+    balance_after = Column(DECIMAL(10, 2), nullable=False)
+    description = Column(Text(collation='utf8mb4_general_ci'))
+    status = Column(ENUM('pending', 'completed', 'failed'), index=True, server_default=text("'completed'"))
     created_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP"))
     updated_at = Column(TIMESTAMP, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
 
-    attendee = relationship('User')
-    event = relationship('Event')
+    user = relationship('User')
+    wallet = relationship('Wallet')
 
 
 class SessionBooking(Base):
@@ -764,42 +892,88 @@ class ChatParticipant(Base):
     user = relationship('User')
 
 
-class Transaction(Base):
-    __tablename__ = "transactions"
-    
-    transaction_id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("user.user_id"), nullable=False)
-    amount = Column(Numeric(10, 2), nullable=False)
-    transaction_type = Column(Enum('training_booking', 'event_booking', 'marketplace_purchase', name='transaction_type'), nullable=False)
-    status = Column(Enum('pending', 'completed', 'failed', 'refunded', name='transaction_status'), default='pending')
-    reference_id = Column(Integer, nullable=False)
-    payment_method = Column(String(50))
-    commission_amount = Column(Numeric(10, 2), nullable=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    # Relationships
-    user = relationship("User", back_populates="transactions")
-    refunds = relationship("Refund", back_populates="transaction")
+class Community(Base):
+    __tablename__ = "communities"
+
+    community_id = Column(Integer, primary_key=True, autoincrement=True)
+    creator_id = Column(Integer, ForeignKey("user.user_id", ondelete="CASCADE"), nullable=False)
+    name = Column(String(100), nullable=False)
+    description = Column(Text, default=None)
+    category = Column(Enum('swimming', 'fitness', 'general', 'events', 'marketplace'), nullable=False)
+    is_private = Column(Boolean, default=False)
+    community_link = Column(String(255), unique=True, nullable=False)
+    invite_enabled = Column(Boolean, default=True)
+    created_at = Column(TIMESTAMP, default="CURRENT_TIMESTAMP")
+    updated_at = Column(TIMESTAMP, default="CURRENT_TIMESTAMP", onupdate="CURRENT_TIMESTAMP")
+
+    creator = relationship("User", back_populates="created_communities")
+    members = relationship("CommunityMember", back_populates="community")
+    posts = relationship("CommunityPost", back_populates="community")
 
 
-class Refund(Base):
-    __tablename__ = "refunds"
-    
-    refund_id = Column(Integer, primary_key=True, index=True)
-    transaction_id = Column(Integer, ForeignKey("transactions.transaction_id"), nullable=False)
-    user_id = Column(Integer, ForeignKey("user.user_id"), nullable=False)
-    amount = Column(Numeric(10, 2), nullable=False)
-    reason = Column(Text, nullable=False)
-    refund_type = Column(Enum('training', 'event', 'marketplace', name='refund_type'), nullable=False)
-    status = Column(Enum('pending', 'approved', 'rejected', 'completed', name='refund_status'), default='pending')
-    approved_by = Column(Integer, ForeignKey("user.user_id"))
-    admin_notes = Column(Text)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    processed_at = Column(DateTime, nullable=True)
+class CommunityMember(Base):
+    __tablename__ = "community_members"
 
-    # Relationships
-    transaction = relationship("Transaction", back_populates="refunds")
-    user = relationship("User", foreign_keys=[user_id], back_populates="refunds")
-    approver = relationship("User", foreign_keys=[approved_by])
+    membership_id = Column(Integer, primary_key=True, autoincrement=True)
+    community_id = Column(Integer, ForeignKey("communities.community_id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(Integer, ForeignKey("user.user_id", ondelete="CASCADE"), nullable=False)
+    role = Column(Enum('member', 'moderator', 'admin'), default="member")
+    join_date = Column(TIMESTAMP, default="CURRENT_TIMESTAMP")
+    status = Column(Enum('active', 'banned', 'pending'), default="active")
+
+    community = relationship("Community", back_populates="members")
+    user = relationship("User", back_populates="community_memberships")
+
+
+class CommunityPost(Base):
+    __tablename__ = "community_posts"
+
+    post_id = Column(Integer, primary_key=True, autoincrement=True)
+    community_id = Column(Integer, ForeignKey("communities.community_id", ondelete="CASCADE"), nullable=False)
+    creator_id = Column(Integer, ForeignKey("user.user_id", ondelete="CASCADE"), nullable=False)
+    title = Column(String(255), nullable=False)
+    content = Column(Text, default=None)
+    media_url = Column(String(255), default=None)
+    post_type = Column(Enum('text', 'image', 'video', 'link'), default="text", nullable=False)
+    visibility = Column(Enum('public', 'private'), default="public")
+    created_at = Column(TIMESTAMP, default="CURRENT_TIMESTAMP")
+    updated_at = Column(TIMESTAMP, default="CURRENT_TIMESTAMP", onupdate="CURRENT_TIMESTAMP")
+
+    community = relationship("Community", back_populates="posts")
+    creator = relationship("User", back_populates="posts")
+    comments = relationship("CommunityComment", back_populates="post")
+
+
+class CommunityComment(Base):
+    __tablename__ = "community_comments"
+
+    comment_id = Column(Integer, primary_key=True, autoincrement=True)
+    post_id = Column(Integer, ForeignKey("community_posts.post_id", ondelete="CASCADE"), nullable=False)
+    commenter_id = Column(Integer, ForeignKey("user.user_id", ondelete="CASCADE"), nullable=False)
+    content = Column(Text, nullable=False)
+    media_url = Column(String(255), default=None)
+    comment_type = Column(Enum('text', 'image', 'video'), default="text", nullable=False)
+    created_at = Column(TIMESTAMP, default="CURRENT_TIMESTAMP")
+    updated_at = Column(TIMESTAMP, default="CURRENT_TIMESTAMP", onupdate="CURRENT_TIMESTAMP")
+
+    post = relationship("CommunityPost", back_populates="comments")
+    commenter = relationship("User", back_populates="comments")
+
+
+class CommunityInvitation(Base):
+    __tablename__ = "community_invitations"
+
+    invitation_id = Column(Integer, primary_key=True, autoincrement=True)
+    community_id = Column(Integer, ForeignKey("communities.community_id", ondelete="CASCADE"), nullable=False)
+    sender_id = Column(Integer, ForeignKey("user.user_id", ondelete="SET NULL"), default=None)
+    recipient_id = Column(Integer, ForeignKey("user.user_id", ondelete="CASCADE"), nullable=False)
+    invitation_link = Column(String(255), nullable=False)
+    status = Column(Enum('pending', 'accepted', 'rejected', 'expired'), default="pending")
+    sent_at = Column(TIMESTAMP, default="CURRENT_TIMESTAMP")
+    responded_at = Column(TIMESTAMP, default=None)
+    expiration_date = Column(TIMESTAMP, default=None)
+
+    community = relationship("Community", back_populates="invitations")
+    sender = relationship("User", foreign_keys=[sender_id], back_populates="sent_invitations")
+    recipient = relationship("User", foreign_keys=[recipient_id], back_populates="received_invitations")

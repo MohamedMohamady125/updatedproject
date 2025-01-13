@@ -3,17 +3,8 @@ from typing import Optional
 from decimal import Decimal
 from enum import Enum
 from pydantic import BaseModel
+from app.schemas.enums_universal import CommissionPersonell, CommissionTypes
 
-class CommissionPersonell(str, Enum):
-    COACH = "coach"
-    CUSTOMER = "customer"  
-    EVENT_ORGANIZER = "event_organizer"
-    ACADEMY = "academy"
-    VENDOR = "vendor"
-
-class CommissionTypes(str, Enum):
-    ON_BOOKING = "on_booking"  
-    ON_PURCHASE = "on_purchase"
 
 class CommissionInfo(BaseModel):
     commission_id: int  

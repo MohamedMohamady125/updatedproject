@@ -25,13 +25,7 @@ class EmailVerification(BaseModel):
     token: str    # Token received in email
 
 
-class PhoneVerificationRequest(BaseModel):
-    phone_number: str = Field(
-        min_length=10,
-        max_length=15,
-        regex=r"^\+[1-9]\d{1,14}$",  # Validates international phone numbers
-        description="Phone number must be in international format (e.g., +1234567890)."
-    )
+
 class PhoneVerification(BaseModel):
       phone_number: str = Field(
         min_length=11,  # Egyptian phone numbers are exactly 11 digits
@@ -59,3 +53,4 @@ class UserVerificationStatus(BaseModel):
     phone_verified: bool
     email_verified_at: Optional[datetime] = None
     phone_verified_at: Optional[datetime] = None
+

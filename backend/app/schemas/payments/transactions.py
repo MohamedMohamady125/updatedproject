@@ -3,31 +3,7 @@ from decimal import Decimal
 from enum import Enum
 from pydantic import BaseModel
 from datetime import datetime
-
-class TransactionTypes(str, Enum):
-    COMMISSION = 'commission'
-    PURCHASE = 'purchase'
-    SESSION_BOOKING = "session_booking"
-    EVENT_BOOKING = "event_booking"
-    REFUND = "refund"  # This can reference refunds in the refund file
-    SUBSCRIPTION = "subscription"
-    WALLET_WITHDRAWAL = "wallet_withdrawal"
-    WALLET_TOPUP = "wallet_topup"
-    CANCELLATION_FEE = "cancellation_fee"
-
-class TransactionStatus(str, Enum):
-    PENDING = "pending"
-    COMPLETED = "completed"
-    FAILED = "failed"
-    REFUNDED = "refunded"
-
-class PaymentMethod(str, Enum):
-    CREDIT_CARD = "credit_card"
-    FAWRY = "fawry"
-    WALLET = "wallet"
-    BANK_TRANSFER = "bank_transfer"
-    INSTAPAY = "instapay"
-    CARRIER_CASH = "carrier_cash" #like vodafone, etisalat, orange cash
+from app.schemas.enums_universal import TransactionStatus, TransactionTypes, PaymentMethod
 
 class Transaction(BaseModel):
     transaction_id: int  # Unique identifier for the transaction

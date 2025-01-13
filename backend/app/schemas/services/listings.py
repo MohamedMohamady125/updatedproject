@@ -1,19 +1,11 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional, Dict, List
 from datetime import datetime, date
-from app.schemas.profiles.user import skillLevel, speciality
 from enum import Enum
+from app.schemas.enums_universal import speciality, Status, skillLevel
 from app.schemas.location.enums import Governorates
 
-class Status(str, Enum):
-    ACTIVE = "active"
-    INACTIVE = "inactive"
-    SUSPENDED = "suspended"
 
-class type(str, Enum):   ##this is the schedule type
-    ONE_TIME = "one_time"
-    WEEKLY = "weekly"
-    MONTHLY = "monthly"
 class listingInfo(BaseModel):
     listing_id : int
     title : str

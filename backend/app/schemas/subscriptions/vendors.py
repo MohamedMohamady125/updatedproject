@@ -2,11 +2,8 @@ from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import datetime
 from enum import Enum
+from app.schemas.enums_universal import Status
 
-class Status(str, Enum):
-    ACTIVE = "active"
-    CANCELLED = "cancelled"
-    EXPIRED = "expired"
 
 class subscriptionInfo(BaseModel):
     id : int
