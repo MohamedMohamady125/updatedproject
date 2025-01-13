@@ -53,6 +53,8 @@ class Brand(str, Enum):
     YINGFA = "yingfa"
     TEMPO = "tempo"
     MEGA_DOLPHIN = "mega_dolphin"
+    TYR = "tyr"
+    
 
 
 class NumericSizes(str, Enum):
@@ -77,3 +79,5 @@ class NumericSizes(str, Enum):
     SIZE_38 = "38"
     SIZE_39 = "39"
     SIZE_40 = "40"
+
+    

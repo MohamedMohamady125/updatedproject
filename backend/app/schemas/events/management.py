@@ -29,9 +29,12 @@ class EventCreate(EventInformation):
     organizer_id: int
     event_type_id: int
     minimum_participants: Optional[int] = Field(default=None, gt=0)
-    banner_image_url: Optional[str] = None
+    photo_url: Optional[str] = None
     venue_details: Optional[str] = None
-    google_maps_url: Optional[str] = None
+    google_maps_url: str = Field(
+        regex=r"^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(:\d+)?(\/[\w\-\.\/]*)*(\?[\w\-\.\=\&]*)?(\#[\w\-]*)?$",
+        description="URL must be in a valid format (e.g., https://example.com)."
+    )
     contact_email: Optional[EmailStr] = None
     contact_phone: Optional[str] = None
 
@@ -48,13 +51,17 @@ class EventResponse(BaseModel):
     location: str
     start_date: date
     end_date: date
+    person_performing : str
     registration_deadline: datetime
     status: str
     organizer_id: int
     event_type_id: int
-    banner_image_url: Optional[str] = None
+    photo_url: Optional[str] = None
     venue_details: Optional[str] = None
-    google_maps_url: Optional[str] = None
+    google_maps_url: str = Field(
+        regex=r"^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(:\d+)?(\/[\w\-\.\/]*)*(\?[\w\-\.\=\&]*)?(\#[\w\-]*)?$",
+        description="URL must be in a valid format (e.g., https://example.com)."
+    )
     contact_email: Optional[EmailStr] = None
     contact_phone: Optional[str] = None
     created_at: datetime

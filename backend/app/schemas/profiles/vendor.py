@@ -11,3 +11,16 @@ class VendorInfo(UserInfo):
     rating: Optional[float] = None 
     created_at: datetime
     updated_at: datetime
+
+
+class VendorResponse(BaseModel):
+    id: int
+    can_ship: bool
+    description: Optional[str] = None
+    status: str
+    rating: Optional[float] = None
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True  

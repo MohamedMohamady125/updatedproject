@@ -10,3 +10,6 @@ sqlacodegen==2.3.0.post1
 SQLAlchemy==1.4.54
 typeguard==4.4.1
 typing_extensions==4.12.2
+sqlalchemy<2.0
+fastapi
+uvicorn

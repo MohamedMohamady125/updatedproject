@@ -2,7 +2,7 @@ from pydantic import EmailStr, Field, BaseModel
 from typing import Optional, List
 from datetime import date, datetime
 from decimal import Decimal
-from app.schemas.marketplace.categories import ItemCondition, ItemAgeGroup, ItemCategory, Itemcompitability, ItemGender, ItemSize, ItemSport, ItemType, Brand, NumericSizes
+from app.schemas.marketplace.item_info import ItemCondition, ItemAgeGroup, ItemCategory, Itemcompitability, ItemGender, ItemSize, ItemSport, ItemType, Brand, NumericSizes
 
 
 class ListingInfo(BaseModel):
@@ -19,6 +19,7 @@ class ListingInfo(BaseModel):
     item_size = ItemSize
     item_sport = ItemSport
     item_type = ItemSport
+    location_id : int
     created_at : datetime
     updated_at : datetime
     brand = Brand
