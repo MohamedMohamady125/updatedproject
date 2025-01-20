@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'role_based_home.dart'; // Import the role-based home screen
-import '../models/user_role.dart'; // Import the UserRole enum
+import 'role_based_home.dart';
+import '../models/user_role.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -8,15 +8,14 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final _formKey = GlobalKey<FormState>(); // Form key for validation
-  final _phoneController = TextEditingController(); // Controller for phone number
-  final _passwordController = TextEditingController(); // Controller for password
-  final _confirmPasswordController = TextEditingController(); // Controller for confirm password
-  UserRole? _selectedRole; // Selected role from the dropdown
+  final _formKey = GlobalKey<FormState>();
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  UserRole? _selectedRole;
 
   void _signUp() {
     if (_formKey.currentState!.validate()) {
-      // Check if passwords match
       if (_passwordController.text != _confirmPasswordController.text) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Passwords do not match')),
@@ -24,7 +23,6 @@ class _SignUpPageState extends State<SignUpPage> {
         return;
       }
 
-      // Check if a role is selected
       if (_selectedRole == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Please select a role')),
@@ -32,21 +30,16 @@ class _SignUpPageState extends State<SignUpPage> {
         return;
       }
 
-      // Simulate a sign-up process
-      String phone = _phoneController.text;
-      String password = _passwordController.text;
-      String role = _selectedRole.toString();
+      // Simulate sign-up process
+      print('Phone: ${_phoneController.text}');
+      print('Password: ${_passwordController.text}');
+      print('Role: $_selectedRole');
 
-      // Print sign-up details (replace with actual backend call)
-      print('Phone: $phone');
-      print('Password: $password');
-      print('Role: $role');
-
-      // Navigate to the role-based home screen
+      // Navigate to the appropriate role-based screen
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => RoleBasedHome(role: role),
+          builder: (context) => RoleBasedHome(role: _selectedRole.toString()),
         ),
       );
     }
@@ -55,24 +48,16 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Sign Up'),
-        backgroundColor: Colors.blue,
-      ),
+      appBar: AppBar(title: Text('Sign Up')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
-              // Phone number field
               TextFormField(
                 controller: _phoneController,
-                decoration: InputDecoration(
-                  labelText: 'Phone Number',
-                  prefixIcon: Icon(Icons.phone),
-                  border: OutlineInputBorder(),
-                ),
+                decoration: InputDecoration(labelText: 'Phone Number'),
                 keyboardType: TextInputType.phone,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -81,16 +66,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 20), // Spacer
-
-              // Password field
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  prefixIcon: Icon(Icons.lock),
-                  border: OutlineInputBorder(),
-                ),
+                decoration: InputDecoration(labelText: 'Password'),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -99,37 +77,20 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 20), // Spacer
-
-              // Confirm password field
               TextFormField(
                 controller: _confirmPasswordController,
-                decoration: InputDecoration(
-                  labelText: 'Confirm Password',
-                  prefixIcon: Icon(Icons.lock),
-                  border: OutlineInputBorder(),
-                ),
+                decoration: InputDecoration(labelText: 'Confirm Password'),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please confirm your password';
                   }
-                  if (value != _passwordController.text) {
-                    return 'Passwords do not match';
-                  }
                   return null;
                 },
               ),
-              SizedBox(height: 20), // Spacer
-
-              // Role dropdown
               DropdownButtonFormField<UserRole>(
                 value: _selectedRole,
-                decoration: InputDecoration(
-                  labelText: 'Select Role',
-                  prefixIcon: Icon(Icons.person),
-                  border: OutlineInputBorder(),
-                ),
+                decoration: InputDecoration(labelText: 'Select Role'),
                 items: UserRole.values.map((role) {
                   return DropdownMenuItem(
                     value: role,
@@ -148,20 +109,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 30), // Spacer
-
-              // Sign Up button
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _signUp,
-                child: Text(
-                  'Sign Up',
-                  style: TextStyle(fontSize: 18),
-                ),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                ),
+                child: Text('Sign Up'),
               ),
             ],
           ),
