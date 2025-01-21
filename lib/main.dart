@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/welcome_page.dart'; // Import the WelcomePage
+import 'screens/welcome_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,11 +9,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Swimming App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: WelcomePage(), // Set WelcomePage as the home screen
+      debugShowCheckedModeBanner: false,
+      home: WelcomePage(), // Starting with the Welcome Page
     );
   }
 }
+
