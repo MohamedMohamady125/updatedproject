@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'profile_page.dart';
 
 class HomePage extends StatelessWidget {
   final String userRole;
@@ -7,78 +8,15 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isSwimmerOrParent =
-        userRole == 'Swimmer' || userRole == 'Parent'; // Extra 'Book' button
-    bool isStoreOrOnlineStore =
-        userRole == 'Store' || userRole == 'Online Store'; // No cart or marketplace
-
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Row(
-          children: [
-            // Search Bar
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search...',
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: 10),
-            // Notifications Button
-            if (!isStoreOrOnlineStore)
-              IconButton(
-                icon: Icon(Icons.notifications),
-                onPressed: () {
-                  // Handle notifications click
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Notifications clicked')),
-                  );
-                },
-              ),
-            // Cart Button
-            if (!isStoreOrOnlineStore)
-              IconButton(
-                icon: Icon(Icons.shopping_cart),
-                onPressed: () {
-                  // Handle cart click
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Cart clicked')),
-                  );
-                },
-              ),
-          ],
-        ),
+        title: Text('Home'),
+        centerTitle: true,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Welcome to the Home Page!',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            // Book Button for Swimmers and Parents
-            if (isSwimmerOrParent)
-              ElevatedButton(
-                onPressed: () {
-                  // Handle book button click
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Book button clicked')),
-                  );
-                },
-                child: Text('Book'),
-              ),
-          ],
+        child: Text(
+          'Welcome to the Home Page!',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -100,43 +38,38 @@ class HomePage extends StatelessWidget {
             icon: Icon(Icons.group),
             label: 'Community',
           ),
-          if (!isStoreOrOnlineStore)
-            BottomNavigationBarItem(
-              icon: Icon(Icons.store),
-              label: 'Marketplace',
-            ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.store),
+            label: 'Marketplace',
+          ),
         ],
         onTap: (index) {
-          // Handle navigation based on the selected index
+          // Navigate based on selected tab
           switch (index) {
             case 0:
-              // Home
+              // Stay on Home
               break;
             case 1:
-              // Profile
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Navigate to Profile')),
+              // Navigate to Profile Page
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProfilePage(
+                    fullName: 'John Doe', // Pass actual user data here
+                    email: 'john.doe@example.com', // Replace with dynamic data
+                    role: userRole, // Replace with actual user role
+                  ),
+                ),
               );
               break;
             case 2:
-              // Events
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Navigate to Events')),
-              );
+              // Navigate to Events Page (not implemented here)
               break;
             case 3:
-              // Community
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Navigate to Community')),
-              );
+              // Navigate to Community Page (not implemented here)
               break;
             case 4:
-              // Marketplace (if applicable)
-              if (!isStoreOrOnlineStore) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Navigate to Marketplace')),
-                );
-              }
+              // Navigate to Marketplace Page (not implemented here)
               break;
           }
         },
