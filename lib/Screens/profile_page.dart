@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'verification_page.dart';
-import 'home_page.dart';
+import '../screens/home_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final String fullName;
@@ -25,17 +25,15 @@ class _ProfilePageState extends State<ProfilePage> {
   String? _selectedCountry;
   String? _selectedGender;
   String? _selectedSkillLevel;
-  DateTime? _selectedDateOfBirth;
   String? _profilePhoto;
 
-  final List<String> _languages = ['English', 'Spanish', 'French']; // Example
-  final List<String> _countries = ['USA', 'Canada', 'UK']; // Example
+  final List<String> _languages = ['English', 'Spanish', 'French'];
+  final List<String> _countries = ['USA', 'Canada', 'UK'];
   final List<String> _genders = ['Male', 'Female', 'Other'];
   final List<String> _skillLevels = ['Beginner', 'Intermediate', 'Advanced'];
 
   bool get isSwimmer => widget.role == 'Swimmer';
-  bool get isParentOrCoach =>
-      widget.role == 'Parent' || widget.role == 'Coach';
+  bool get isParentOrCoach => widget.role == 'Parent' || widget.role == 'Coach';
 
   bool _hasUnsavedChanges = false;
 
@@ -93,19 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => VerificationPage(
-            onVerificationSuccess: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HomePage(userRole: widget.role),
-                ),
-              );
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Profile updated successfully')),
-              );
-            },
-          ),
+          builder: (context) => VerificationPage(),
         ),
       );
     } else {
@@ -125,183 +111,247 @@ class _ProfilePageState extends State<ProfilePage> {
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Profile'),
+          backgroundColor: Color.fromARGB(255, 79, 165, 245),
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Text(
+            'Profile',
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           centerTitle: true,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Full Name
-                  TextFormField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      labelText: 'Full Name',
-                      border: OutlineInputBorder(),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromARGB(255, 79, 165, 245),
+                Colors.white,
+              ],
+            ),
+          ),
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Profile Photo Upload
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _profilePhoto = "Uploaded";
+                        _hasUnsavedChanges = true;
+                      });
+                    },
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.white,
+                      child: _profilePhoto == null
+                          ? Icon(
+                              Icons.camera_alt,
+                              size: 30,
+                              color: Color.fromARGB(255, 79, 165, 245),
+                            )
+                          : null, // Replace with actual image preview logic
                     ),
                   ),
-                  SizedBox(height: 16),
-                  // Email
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      border: OutlineInputBorder(),
+                ),
+                SizedBox(height: 20),
+                // Full Name
+                TextFormField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Full Name',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
                     ),
                   ),
-                  SizedBox(height: 16),
-                  // Role (Read-Only)
-                  TextFormField(
-                    initialValue: widget.role,
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      labelText: 'Role',
-                      border: OutlineInputBorder(),
+                ),
+                SizedBox(height: 16),
+                // Email
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
                     ),
                   ),
-                  SizedBox(height: 16),
-                  // Gender (Swimmer, Parent, Coach)
-                  if (isSwimmer || isParentOrCoach)
-                    DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                        labelText: 'Gender',
-                        border: OutlineInputBorder(),
-                      ),
-                      value: _selectedGender,
-                      items: _genders.map((gender) {
-                        return DropdownMenuItem(
-                          value: gender,
-                          child: Text(gender),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedGender = value;
-                          _hasUnsavedChanges = true;
-                        });
-                      },
+                ),
+                SizedBox(height: 16),
+                // Role (Read-Only)
+                TextFormField(
+                  initialValue: widget.role,
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    labelText: 'Role',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
                     ),
-                  SizedBox(height: 16),
-                  // Date of Birth (Swimmer, Parent, Coach)
-                  if (isSwimmer || isParentOrCoach)
-                    DropdownButtonFormField<DateTime>(
-                      decoration: InputDecoration(
-                        labelText: 'Date of Birth',
-                        border: OutlineInputBorder(),
-                      ),
-                      items: List.generate(100, (index) {
-                        final year = DateTime.now().year - index;
-                        return DropdownMenuItem(
-                          value: DateTime(year),
-                          child: Text(year.toString()),
-                        );
-                      }),
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedDateOfBirth = value;
-                          _hasUnsavedChanges = true;
-                        });
-                      },
-                    ),
-                  SizedBox(height: 16),
-                  // Skill Level (Swimmer only)
-                  if (isSwimmer)
-                    DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                        labelText: 'Skill Level',
-                        border: OutlineInputBorder(),
-                      ),
-                      value: _selectedSkillLevel,
-                      items: _skillLevels.map((skill) {
-                        return DropdownMenuItem(
-                          value: skill,
-                          child: Text(skill),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedSkillLevel = value;
-                          _hasUnsavedChanges = true;
-                        });
-                      },
-                    ),
-                  SizedBox(height: 16),
-                  // Phone Number
-                  TextFormField(
-                    controller: _phoneController,
-                    decoration: InputDecoration(
-                      labelText: 'Phone Number',
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.phone,
                   ),
-                  SizedBox(height: 16),
-                  // Language
+                ),
+                SizedBox(height: 16),
+                // Gender
+                DropdownButtonFormField<String>(
+                  decoration: InputDecoration(
+                    labelText: 'Gender',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  value: _selectedGender,
+                  items: _genders.map((gender) {
+                    return DropdownMenuItem(
+                      value: gender,
+                      child: Text(gender),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedGender = value;
+                      _hasUnsavedChanges = true;
+                    });
+                  },
+                ),
+                SizedBox(height: 16),
+                // Skill Level (For Swimmer Only)
+                if (isSwimmer)
                   DropdownButtonFormField<String>(
                     decoration: InputDecoration(
-                      labelText: 'Language',
-                      border: OutlineInputBorder(),
+                      labelText: 'Skill Level',
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
                     ),
-                    value: _selectedLanguage,
-                    items: _languages.map((lang) {
+                    value: _selectedSkillLevel,
+                    items: _skillLevels.map((skill) {
                       return DropdownMenuItem(
-                        value: lang,
-                        child: Text(lang),
+                        value: skill,
+                        child: Text(skill),
                       );
                     }).toList(),
                     onChanged: (value) {
                       setState(() {
-                        _selectedLanguage = value;
+                        _selectedSkillLevel = value;
                         _hasUnsavedChanges = true;
                       });
                     },
                   ),
-                  SizedBox(height: 16),
-                  // Country
-                  DropdownButtonFormField<String>(
-                    decoration: InputDecoration(
-                      labelText: 'Country',
-                      border: OutlineInputBorder(),
-                    ),
-                    value: _selectedCountry,
-                    items: _countries.map((country) {
-                      return DropdownMenuItem(
-                        value: country,
-                        child: Text(country),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedCountry = value;
-                        _hasUnsavedChanges = true;
-                      });
-                    },
-                  ),
-                  SizedBox(height: 16),
-                  // Profile Photo
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        _profilePhoto = "Uploaded"; // Placeholder for logic
-                        _hasUnsavedChanges = true;
-                      });
-                    },
-                    child: Text('Upload Profile Photo'),
-                  ),
-                  SizedBox(height: 20),
-                  // Save Button
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: _onSavePressed,
-                      child: Text('Save Profile'),
+                SizedBox(height: 16),
+                // Phone Number
+                TextFormField(
+                  controller: _phoneController,
+                  decoration: InputDecoration(
+                    labelText: 'Phone Number',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
                     ),
                   ),
-                ],
-              ),
+                  keyboardType: TextInputType.phone,
+                ),
+                SizedBox(height: 16),
+                // Language
+                DropdownButtonFormField<String>(
+                  decoration: InputDecoration(
+                    labelText: 'Language',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  value: _selectedLanguage,
+                  items: _languages.map((lang) {
+                    return DropdownMenuItem(
+                      value: lang,
+                      child: Text(lang),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedLanguage = value;
+                      _hasUnsavedChanges = true;
+                    });
+                  },
+                ),
+                SizedBox(height: 16),
+                // Country
+                DropdownButtonFormField<String>(
+                  decoration: InputDecoration(
+                    labelText: 'Country',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  value: _selectedCountry,
+                  items: _countries.map((country) {
+                    return DropdownMenuItem(
+                      value: country,
+                      child: Text(country),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedCountry = value;
+                      _hasUnsavedChanges = true;
+                    });
+                  },
+                ),
+                SizedBox(height: 20),
+                // Save Button
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: _onSavePressed,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 79, 165, 245),
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text(
+                      'Save Profile',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

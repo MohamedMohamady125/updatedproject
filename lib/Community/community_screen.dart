@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../Screens/create_group_screen.dart';
-import '../Screens/join_group_screen.dart';
+import '../community/create_group_screen.dart';
+import '../community/join_group_screen.dart';
 import 'create_post_screen.dart';
 
 class CommunityScreen extends StatelessWidget {
@@ -8,68 +8,141 @@ class CommunityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Community'),
+        backgroundColor: Color.fromARGB(255, 79, 165, 245),
+        elevation: 0,
+        title: Text(
+          'Community',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: 5, // Replace with actual posts count
-                itemBuilder: (context, index) {
-                  return Card(
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    child: ListTile(
-                      title: Text('Post Author $index'),
-                      subtitle: Text('This is a sample post content $index.'),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.thumb_up_alt_outlined),
-                            onPressed: () {
-                              // Like post logic
-                            },
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.comment_outlined),
-                            onPressed: () {
-                              // Comment on post logic
-                            },
-                          ),
-                        ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color.fromARGB(255, 79, 165, 245),
+              Colors.white,
+            ],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: 5, // Replace with actual posts count
+                  itemBuilder: (context, index) {
+                    return Card(
+                      margin: EdgeInsets.symmetric(vertical: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                  );
-                },
+                      elevation: 5,
+                      child: ListTile(
+                        title: Text(
+                          'Group Name $index',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 79, 165, 245),
+                          ),
+                        ),
+                        subtitle: Text(
+                          'This is a sample post content $index.',
+                          style: TextStyle(color: Colors.grey[700]),
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.thumb_up_alt_outlined),
+                              color: Color.fromARGB(255, 79, 165, 245),
+                              onPressed: () {
+                                // Like post logic
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.comment_outlined),
+                              color: Color.fromARGB(255, 79, 165, 245),
+                              onPressed: () {
+                                // Comment on post logic
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CreateGroupScreen()),
-                );
-              },
-              child: Text('Create Group'),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => JoinGroupScreen()),
-                );
-              },
-              child: Text('Join Group'),
-            ),
-          ],
+              SizedBox(height: 16),
+              // Create Group Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CreateGroupScreen()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 79, 165, 245),
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Text(
+                    'Create Group',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+              // Join Group Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => JoinGroupScreen()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 79, 165, 245),
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Text(
+                    'Join Group',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Color.fromARGB(255, 79, 165, 245),
         onPressed: () {
           Navigator.push(
             context,

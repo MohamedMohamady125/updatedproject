@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import '../screens/ForgotPasswordEmailScreen.dart';
 
-class VerificationPage extends StatelessWidget {
-  final bool forPasswordReset;
-  final VoidCallback? onVerificationSuccess;
-
-  VerificationPage({this.forPasswordReset = false, this.onVerificationSuccess});
-
+class ForgotPasswordCodeScreen extends StatelessWidget {
   final List<TextEditingController> _controllers = List.generate(
     6,
     (index) => TextEditingController(),
@@ -36,7 +31,7 @@ class VerificationPage extends StatelessWidget {
             children: [
               // Title
               Text(
-                "EMAIL VERIFICATION",
+                "ENTER RESET CODE",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -47,7 +42,7 @@ class VerificationPage extends StatelessWidget {
               SizedBox(height: 24),
               // Instruction Text
               Text(
-                "We've sent you a verification code to your email. Please enter the code below to continue.",
+                "Enter the 6-digit code sent to your email.",
                 style: TextStyle(fontSize: 16, color: Colors.black87),
                 textAlign: TextAlign.center,
               ),
@@ -95,21 +90,19 @@ class VerificationPage extends StatelessWidget {
                   onPressed: () {
                     final code = _controllers.map((e) => e.text).join();
                     if (code.length == 6) {
-                      // Navigate to Home Page on successful verification
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Code Verified")),
+                      );
+                      // Navigate back to email screen
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomePage(
-                              userRole:
-                                  'User'), // Replace 'User' with actual user role
+                          builder: (context) => ForgotPasswordEmailScreen(),
                         ),
                       );
-                      if (onVerificationSuccess != null) {
-                        onVerificationSuccess!();
-                      }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Please enter a valid code.")),
+                        SnackBar(content: Text("Please enter a valid 6-digit code")),
                       );
                     }
                   },
@@ -127,6 +120,24 @@ class VerificationPage extends StatelessWidget {
                       fontSize: 16,
                       color: Colors.white, // Make the text white
                     ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+              // Go Back Button
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ForgotPasswordEmailScreen(),
+                    ),
+                  );
+                },
+                child: Text(
+                  "Go Back to Email Screen",
+                  style: TextStyle(
+                    color: const Color.fromARGB(255, 79, 165, 245),
                   ),
                 ),
               ),

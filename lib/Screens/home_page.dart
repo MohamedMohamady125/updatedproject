@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'profile_page.dart';
+import '../community/community_screen.dart';
 
 class HomePage extends StatelessWidget {
   final String userRole;
@@ -55,7 +56,7 @@ class HomePage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ProfilePage(
-                    fullName: 'John Doe', // Pass actual user data here
+                    fullName: 'John Doe', // Replace with actual user data
                     email: 'john.doe@example.com', // Replace with dynamic data
                     role: userRole, // Replace with actual user role
                   ),
@@ -64,12 +65,25 @@ class HomePage extends StatelessWidget {
               break;
             case 2:
               // Navigate to Events Page (not implemented here)
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Events Page is under construction')),
+              );
               break;
             case 3:
-              // Navigate to Community Page (not implemented here)
+              // Navigate to Community Screen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CommunityScreen(),
+                ),
+              );
               break;
             case 4:
               // Navigate to Marketplace Page (not implemented here)
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text('Marketplace Page is under construction')),
+              );
               break;
           }
         },

@@ -37,60 +37,119 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Post'),
+        backgroundColor: Color.fromARGB(255, 79, 165, 245),
+        elevation: 0,
+        title: Text(
+          'Create Post',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: isPostButtonEnabled ? _onPost : null,
             child: Text(
               'Post',
               style: TextStyle(
-                color: isPostButtonEnabled ? Colors.blue : Colors.grey,
+                color: isPostButtonEnabled
+                    ? Color.fromARGB(255, 79, 165, 245)
+                    : Colors.grey,
                 fontSize: 16,
               ),
             ),
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  child: Text('Y'), // Placeholder for user's initials
-                ),
-                SizedBox(width: 10),
-                Text(
-                  'Yehia El Marghany', // Replace with actual user name
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              controller: _postContentController,
-              maxLines: 5,
-              decoration: InputDecoration(
-                hintText: "What is on your mind...",
-                border: OutlineInputBorder(),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color.fromARGB(255, 79, 165, 245),
+              Colors.white,
+            ],
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // User Info
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: Colors.white,
+                    child: Text(
+                      'Y',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 79, 165, 245),
+                      ),
+                    ), // Placeholder for user's initials
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    'Yehia El Marghany', // Replace with actual user name
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
-              onChanged: (value) {
-                setState(() {}); // Refresh to enable/disable Post button
-              },
-            ),
-            Spacer(),
-            TextButton.icon(
-              onPressed: _onSelectPhoto,
-              icon: Icon(Icons.photo, color: Colors.green),
-              label: Text(
-                'Photo',
-                style: TextStyle(color: Colors.green),
+              SizedBox(height: 20),
+              // Post Content Field
+              TextFormField(
+                controller: _postContentController,
+                maxLines: 5,
+                decoration: InputDecoration(
+                  hintText: "What is on your mind...",
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                onChanged: (value) {
+                  setState(() {}); // Refresh to enable/disable Post button
+                },
               ),
-            ),
-            SizedBox(height: 10),
-          ],
+              Spacer(),
+              // Photo Button
+              TextButton.icon(
+                onPressed: _onSelectPhoto,
+                icon: Icon(
+                  Icons.photo,
+                  color: Color.fromARGB(255, 79, 165, 245),
+                ),
+                label: Text(
+                  'Photo',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 79, 165, 245),
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              if (_selectedPhoto != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text(
+                    'Photo Selected: $_selectedPhoto',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ),
+              SizedBox(height: 10),
+            ],
+          ),
         ),
       ),
     );
