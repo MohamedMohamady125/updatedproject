@@ -4,6 +4,10 @@ import 'online_store_section.dart';
 import 'store_section.dart';
 
 class MarketplaceScreen extends StatefulWidget {
+  final String userRole; // To determine role-specific features
+
+  MarketplaceScreen({required this.userRole});
+
   @override
   _MarketplaceScreenState createState() => _MarketplaceScreenState();
 }
@@ -11,14 +15,14 @@ class MarketplaceScreen extends StatefulWidget {
 class _MarketplaceScreenState extends State<MarketplaceScreen> {
   int _selectedTabIndex = 0;
 
-  final List<Widget> _sections = [
-    UsedSection(),
-    OnlineStoreSection(),
-    StoreSection(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _sections = [
+      UsedSection(userRole: widget.userRole),
+      OnlineStoreSection(userRole: widget.userRole),
+      StoreSection(userRole: widget.userRole),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Marketplace'),

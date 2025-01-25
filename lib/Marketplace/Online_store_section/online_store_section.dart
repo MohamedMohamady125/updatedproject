@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'store_products_screen.dart';
 
 class OnlineStoreSection extends StatelessWidget {
+  final String userRole; // Role determines cart restrictions
+
+  OnlineStoreSection({required this.userRole});
+
   final List<Map<String, dynamic>> _onlineStores = [
     {
       'photo': 'https://via.placeholder.com/150',
@@ -42,7 +46,10 @@ class OnlineStoreSection extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => StoreProductsScreen(storeName: store['name']),
+                            builder: (context) => StoreProductsScreen(
+                              storeName: store['name'],
+                              userRole: userRole,
+                            ),
                           ),
                         );
                       },

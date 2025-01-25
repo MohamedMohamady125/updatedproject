@@ -3,6 +3,10 @@ import 'post_product_screen.dart';
 import 'product_details_screen.dart';
 
 class UsedSection extends StatelessWidget {
+  final String userRole; // Role determines button visibility
+
+  UsedSection({required this.userRole});
+
   final List<Map<String, dynamic>> _products = [
     {
       'itemType': 'Swimwear',
@@ -69,16 +73,18 @@ class UsedSection extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => PostProductScreen()),
-          );
-        },
-        label: Text('Post Product'),
-        icon: Icon(Icons.add),
-      ),
+      floatingActionButton: (userRole != 'Store' && userRole != 'Online Store')
+          ? FloatingActionButton.extended(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PostProductScreen()),
+                );
+              },
+              label: Text('Post Product'),
+              icon: Icon(Icons.add),
+            )
+          : null,
     );
   }
 }
