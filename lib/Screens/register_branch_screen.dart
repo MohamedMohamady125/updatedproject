@@ -1,0 +1,140 @@
+import 'package:flutter/material.dart';
+
+class RegisterBranchScreen extends StatefulWidget {
+  final String role;
+
+  RegisterBranchScreen({required this.role});
+
+  @override
+  _RegisterBranchScreenState createState() => _RegisterBranchScreenState();
+}
+
+class _RegisterBranchScreenState extends State<RegisterBranchScreen> {
+  final _nameController = TextEditingController();
+  final _specialtyController = TextEditingController();
+  final _locationController = TextEditingController();
+  final _gpsUrlController = TextEditingController();
+  final _phoneController = TextEditingController();
+
+  int? selectedCancellationPolicy;
+  int? selectedTimeSlotInterval;
+  bool changesMade = false;
+
+  List<String> services = [
+    'Swimming Lessons',
+    'Gym Facilities',
+    'Therapy Sessions',
+    'Yoga Classes',
+    'Diving Courses',
+  ];
+  List<bool> selectedServices = [false, false, false, false, false];
+
+  final List<int> cancellationPolicies = [24, 48, 72, 96, 120];
+  final List<int> timeSlotIntervals = [15, 30, 45, 60, 90];
+
+  void saveBranch() {
+    Navigator.pop(context);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Branch Registered/Updated Successfully!')));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Register ${widget.role == "Online Academy" ? "Academy" : "Branch"}'),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: [
+            TextFormField(
+              controller: _nameController,
+              decoration: InputDecoration(labelText: 'Name'),
+              onChanged: (_) => setState(() => changesMade = true),
+            ),
+            if (widget.role != 'Clinic' && widget.role != 'Online Academy')
+              TextFormField(
+                controller: _specialtyController,
+                decoration: InputDecoration(labelText: 'Specialty'),
+                onChanged: (_) => setState(() => changesMade = true),
+              ),
+            TextFormField(
+              controller: _locationController,
+              decoration: InputDecoration(labelText: 'Location'),
+              onChanged: (_) => setState(() => changesMade = true),
+            ),
+            TextFormField(
+              controller: _gpsUrlController,
+              decoration: InputDecoration(labelText: 'GPS URL'),
+              onChanged: (_) => setState(() => changesMade = true),
+            ),
+            if (widget.role != 'Online Store')
+              TextFormField(
+                controller: _phoneController,
+                decoration: InputDecoration(labelText: 'Phone Number'),
+                keyboardType: TextInputType.phone,
+                onChanged: (_) => setState(() => changesMade = true),
+              ),
+            if (widget.role == 'Coach' || widget.role == 'Clinic' || widget.role == 'Academy')
+              Column(
+                children: [
+                  DropdownButtonFormField<int>(
+                    value: selectedCancellationPolicy,
+                    items: cancellationPolicies.map((hours) {
+                      return DropdownMenuItem(
+                        value: hours,
+                        child: Text('$hours Hours'),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedCancellationPolicy = value;
+                        changesMade = true;
+                      });
+                    },
+                    decoration: InputDecoration(labelText: 'Cancellation Policy (Hours)'),
+                  ),
+                  DropdownButtonFormField<int>(
+                    value: selectedTimeSlotInterval,
+                    items: timeSlotIntervals.map((minutes) {
+                      return DropdownMenuItem(
+                        value: minutes,
+                        child: Text('$minutes Minutes'),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedTimeSlotInterval = value;
+                        changesMade = true);
+                      });
+                    },
+                    decoration: InputDecoration(labelText: 'Time Slot Interval (Minutes)'),
+                  ),
+                ],
+              ),
+            SizedBox(height: 20),
+            Text('Services Available at this Branch:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            ...List.generate(services.length, (index) {
+              return CheckboxListTile(
+                title: Text(services[index]),
+                value: selectedServices[index],
+                onChanged: (value) {
+                  setState(() {
+                    selectedServices[index] = value!;
+                    changesMade = true);
+                  });
+                },
+              );
+            }),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: changesMade ? saveBranch : null,
+              child: Text('Save Changes'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
