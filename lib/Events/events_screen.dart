@@ -1,82 +1,145 @@
 import 'package:flutter/material.dart';
-import 'create_event_screen.dart';
-import 'event_details_screen.dart';
 
-class EventsScreen extends StatelessWidget {
-  final List<Map<String, dynamic>> _events = [
+class EventsScreen extends StatefulWidget {
+  @override
+  _EventsScreenState createState() => _EventsScreenState();
+}
+
+class _EventsScreenState extends State<EventsScreen> {
+  DateTimeRange? selectedDateRange;
+  RangeValues priceRange = RangeValues(0, 200);
+  String? selectedLocation;
+  String? selectedEventType;
+
+  List<Map<String, String>> events = [
     {
-      'photo': 'https://via.placeholder.com/150',
-      'title': 'Swimming Workshop',
-      'location': 'Sports Complex',
-      'price': '\$50'
+      'title': 'Swimming Gala',
+      'date': '2023-03-25',
+      'price': '50',
+      'location': 'New York',
+      'type': 'Competition',
     },
     {
-      'photo': 'https://via.placeholder.com/150',
-      'title': 'Parent Coaching Seminar',
-      'location': 'Community Center',
-      'price': '\$20'
+      'title': 'Yoga Retreat',
+      'date': '2023-04-10',
+      'price': '30',
+      'location': 'Los Angeles',
+      'type': 'Workshop',
     },
   ];
 
   @override
   Widget build(BuildContext context) {
+    List<Map<String, String>> filteredEvents = events.where((event) {
+      DateTime eventDate = DateTime.parse(event['date']!);
+      return (selectedEventType == null || event['type'] == selectedEventType) &&
+          (double.parse(event['price']!) >= priceRange.start &&
+              double.parse(event['price']!) <= priceRange.end) &&
+          (selectedLocation == null || event['location'] == selectedLocation) &&
+          (selectedDateRange == null ||
+              (eventDate.isAfter(selectedDateRange!.start) &&
+                  eventDate.isBefore(selectedDateRange!.end)));
+    }).toList();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Events'),
-        centerTitle: true,
       ),
-      body: ListView.builder(
-        itemCount: _events.length,
-        itemBuilder: (context, index) {
-          final event = _events[index];
-          return Card(
-            margin: EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ExpansionTile(
+              title: Text('Filters'),
               children: [
-                Image.network(event['photo'], height: 150, fit: BoxFit.cover),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        event['title'],
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 8),
-                      Text('Location: ${event['location']}'),
-                      Text('Price: ${event['price']}'),
-                      SizedBox(height: 8),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EventDetailsScreen(event: event),
-                            ),
-                          );
-                        },
-                        child: Text('Show More Details'),
-                      ),
-                    ],
-                  ),
+                DropdownButtonFormField<String>(
+                  value: selectedEventType,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedEventType = value;
+                    });
+                  },
+                  decoration: InputDecoration(labelText: 'Event Type'),
+                  items: ['Competition', 'Workshop', 'Seminar']
+                      .map((type) => DropdownMenuItem(
+                            value: type,
+                            child: Text(type),
+                          ))
+                      .toList(),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Price Range: \$${priceRange.start.toInt()} - \$${priceRange.end.toInt()}'),
+                    RangeSlider(
+                      values: priceRange,
+                      min: 0,
+                      max: 200,
+                      divisions: 10,
+                      onChanged: (values) {
+                        setState(() {
+                          priceRange = values;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    DateTimeRange? picked = await showDateRangePicker(
+                      context: context,
+                      firstDate: DateTime(2023),
+                      lastDate: DateTime(2024),
+                    );
+                    if (picked != null) {
+                      setState(() {
+                        selectedDateRange = picked;
+                      });
+                    }
+                  },
+                  child: Text('Select Date Range'),
+                ),
+                DropdownButtonFormField<String>(
+                  value: selectedLocation,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedLocation = value;
+                    });
+                  },
+                  decoration: InputDecoration(labelText: 'Location'),
+                  items: ['New York', 'Los Angeles']
+                      .map((loc) => DropdownMenuItem(
+                            value: loc,
+                            child: Text(loc),
+                          ))
+                      .toList(),
                 ),
               ],
             ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // Ensure roles other than swimmers/parents can access
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CreateEventScreen()),
-          );
-        },
-        label: Text('Create Event'),
-        icon: Icon(Icons.add),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: filteredEvents.length,
+              itemBuilder: (context, index) {
+                final event = filteredEvents[index];
+                return Card(
+                  margin: EdgeInsets.all(8),
+                  child: ListTile(
+                    title: Text(event['title']!),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Date: ${event['date']}'),
+                        Text('Location: ${event['location']}'),
+                        Text('Price: \$${event['price']}'),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

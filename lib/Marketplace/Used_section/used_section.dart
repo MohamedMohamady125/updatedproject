@@ -1,90 +1,144 @@
 import 'package:flutter/material.dart';
-import 'post_product_screen.dart';
-import 'product_details_screen.dart';
 
-class UsedSection extends StatelessWidget {
-  final String userRole; // Role determines button visibility
+class UsedSectionScreen extends StatefulWidget {
+  @override
+  _UsedSectionScreenState createState() => _UsedSectionScreenState();
+}
 
-  UsedSection({required this.userRole});
+class _UsedSectionScreenState extends State<UsedSectionScreen> {
+  String? selectedItemType;
+  RangeValues priceRange = RangeValues(0, 500);
+  String? selectedLocation;
+  String? selectedCondition;
 
-  final List<Map<String, dynamic>> _products = [
+  List<Map<String, String>> items = [
     {
-      'itemType': 'Swimwear',
-      'photos': ['https://via.placeholder.com/150'],
-      'size': 'Medium',
-      'price': '\$30',
-      'location': 'New York, USA',
-      'brand': 'Speedo',
+      'name': 'Swimming Goggles',
+      'itemType': 'Accessories',
+      'price': '50',
+      'location': 'New York',
       'condition': 'New',
-      'description': 'Comfortable swimwear for training.',
-      'phoneNumber': '123-456-7890',
     },
     {
-      'itemType': 'Goggles',
-      'photos': ['https://via.placeholder.com/150'],
-      'size': 'Adjustable',
-      'price': '\$20',
-      'location': 'Los Angeles, USA',
-      'brand': 'Arena',
+      'name': 'Swim Suit',
+      'itemType': 'Clothing',
+      'price': '30',
+      'location': 'Los Angeles',
       'condition': 'Used',
-      'description': null,
-      'phoneNumber': '987-654-3210',
     },
   ];
 
   @override
   Widget build(BuildContext context) {
+    List<Map<String, String>> filteredItems = items.where((item) {
+      return (selectedItemType == null || item['itemType'] == selectedItemType) &&
+          (double.parse(item['price']!) >= priceRange.start &&
+              double.parse(item['price']!) <= priceRange.end) &&
+          (selectedLocation == null || item['location'] == selectedLocation) &&
+          (selectedCondition == null || item['condition'] == selectedCondition);
+    }).toList();
+
     return Scaffold(
-      body: ListView.builder(
-        itemCount: _products.length,
-        itemBuilder: (context, index) {
-          final product = _products[index];
-          return Card(
-            margin: EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      appBar: AppBar(
+        title: Text('Used Marketplace'),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ExpansionTile(
+              title: Text('Filters'),
               children: [
-                Image.network(product['photos'][0], height: 150, fit: BoxFit.cover),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(product['itemType'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                      Text('Size: ${product['size']}'),
-                      Text('Price: ${product['price']}'),
-                      Text('Location: ${product['location']}'),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductDetailsScreen(product: product),
-                            ),
-                          );
-                        },
-                        child: Text('More Details'),
-                      ),
-                    ],
-                  ),
+                DropdownButtonFormField<String>(
+                  value: selectedItemType,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedItemType = value;
+                    });
+                  },
+                  decoration: InputDecoration(labelText: 'Item Type'),
+                  items: ['Accessories', 'Clothing', 'Equipment']
+                      .map((type) => DropdownMenuItem(
+                            value: type,
+                            child: Text(type),
+                          ))
+                      .toList(),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Price Range: \$${priceRange.start.toInt()} - \$${priceRange.end.toInt()}'),
+                    RangeSlider(
+                      values: priceRange,
+                      min: 0,
+                      max: 500,
+                      divisions: 10,
+                      onChanged: (values) {
+                        setState(() {
+                          priceRange = values;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                DropdownButtonFormField<String>(
+                  value: selectedLocation,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedLocation = value;
+                    });
+                  },
+                  decoration: InputDecoration(labelText: 'Location'),
+                  items: ['New York', 'Los Angeles']
+                      .map((loc) => DropdownMenuItem(
+                            value: loc,
+                            child: Text(loc),
+                          ))
+                      .toList(),
+                ),
+                DropdownButtonFormField<String>(
+                  value: selectedCondition,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedCondition = value;
+                    });
+                  },
+                  decoration: InputDecoration(labelText: 'Condition'),
+                  items: ['New', 'Used']
+                      .map((cond) => DropdownMenuItem(
+                            value: cond,
+                            child: Text(cond),
+                          ))
+                      .toList(),
                 ),
               ],
             ),
-          );
-        },
-      ),
-      floatingActionButton: (userRole != 'Store' && userRole != 'Online Store')
-          ? FloatingActionButton.extended(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PostProductScreen()),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: filteredItems.length,
+              itemBuilder: (context, index) {
+                final item = filteredItems[index];
+                return Card(
+                  margin: EdgeInsets.all(8),
+                  child: ListTile(
+                    title: Text(item['name']!),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Type: ${item['itemType']}'),
+                        Text('Price: \$${item['price']}'),
+                        Text('Location: ${item['location']}'),
+                        Text('Condition: ${item['condition']}'),
+                      ],
+                    ),
+                  ),
                 );
               },
-              label: Text('Post Product'),
-              icon: Icon(Icons.add),
-            )
-          : null,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
