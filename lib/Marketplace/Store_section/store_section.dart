@@ -38,7 +38,9 @@ class StoreSection extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(store['name'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text(store['name'],
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
                       Text('Location: ${store['location']}'),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,7 +64,8 @@ class StoreSection extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => StoreDetailsScreen(store: store),
+                                  builder: (context) =>
+                                      StoreDetailsScreen(store: store),
                                 ),
                               );
                             },

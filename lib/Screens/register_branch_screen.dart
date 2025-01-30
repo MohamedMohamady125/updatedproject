@@ -32,9 +32,21 @@ class _RegisterBranchScreenState extends State<RegisterBranchScreen> {
   final List<int> cancellationPolicies = [24, 48, 72, 96, 120];
   final List<int> timeSlotIntervals = [15, 30, 45, 60, 90];
 
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _specialtyController.dispose();
+    _locationController.dispose();
+    _gpsUrlController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
+
   void saveBranch() {
     Navigator.pop(context);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Branch Registered/Updated Successfully!')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Branch Registered/Updated Successfully!')),
+    );
   }
 
   @override
@@ -80,7 +92,7 @@ class _RegisterBranchScreenState extends State<RegisterBranchScreen> {
               Column(
                 children: [
                   DropdownButtonFormField<int>(
-                    value: selectedCancellationPolicy,
+                    value: selectedCancellationPolicy ?? cancellationPolicies.first,
                     items: cancellationPolicies.map((hours) {
                       return DropdownMenuItem(
                         value: hours,
@@ -96,7 +108,7 @@ class _RegisterBranchScreenState extends State<RegisterBranchScreen> {
                     decoration: InputDecoration(labelText: 'Cancellation Policy (Hours)'),
                   ),
                   DropdownButtonFormField<int>(
-                    value: selectedTimeSlotInterval,
+                    value: selectedTimeSlotInterval ?? timeSlotIntervals.first,
                     items: timeSlotIntervals.map((minutes) {
                       return DropdownMenuItem(
                         value: minutes,
@@ -106,7 +118,7 @@ class _RegisterBranchScreenState extends State<RegisterBranchScreen> {
                     onChanged: (value) {
                       setState(() {
                         selectedTimeSlotInterval = value;
-                        changesMade = true);
+                        changesMade = true;
                       });
                     },
                     decoration: InputDecoration(labelText: 'Time Slot Interval (Minutes)'),
@@ -114,7 +126,10 @@ class _RegisterBranchScreenState extends State<RegisterBranchScreen> {
                 ],
               ),
             SizedBox(height: 20),
-            Text('Services Available at this Branch:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(
+              'Services Available at this Branch:',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
             ...List.generate(services.length, (index) {
               return CheckboxListTile(
                 title: Text(services[index]),
@@ -122,7 +137,7 @@ class _RegisterBranchScreenState extends State<RegisterBranchScreen> {
                 onChanged: (value) {
                   setState(() {
                     selectedServices[index] = value!;
-                    changesMade = true);
+                    changesMade = true;
                   });
                 },
               );

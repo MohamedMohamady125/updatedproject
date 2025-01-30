@@ -38,7 +38,6 @@ class StoreDetailsScreen extends StatelessWidget {
               children: [
                 Icon(Icons.facebook, color: Colors.blue),
                 SizedBox(width: 8),
-                Icon(Icons.instagram, color: Colors.pink),
               ],
             ),
           ],

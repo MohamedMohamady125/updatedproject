@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class StoreProductsScreen extends StatelessWidget {
   final String storeName;
 
-  StoreProductsScreen({required this.storeName});
+  StoreProductsScreen({required this.storeName, required String userRole});
 
   final List<Map<String, dynamic>> _products = [
     {

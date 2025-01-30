@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'used_section.dart';
-import 'online_store_section.dart';
-import 'store_section.dart';
+import '../Marketplace/Used_section/used_section.dart';
+import '../Marketplace/Online_store_section/online_store_section.dart';
+import '../Marketplace/Store_section/store_section.dart';
 
 class MarketplaceScreen extends StatefulWidget {
   final String userRole; // To determine role-specific features

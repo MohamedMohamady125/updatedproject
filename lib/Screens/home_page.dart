@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'profile_page.dart';
 import '../community/community_screen.dart';
-import 'notifications_screen.dart';
-import 'cart_screen.dart';
+import '../Top Bar/notifications_screen.dart';
+import '../Top Bar/cart_screen.dart';
+import '../Screens/my_bookings_screen.dart';
+import '../Screens/my_orders_screen.dart';
+import '../Screens/my_branches_screen.dart';
+import '../Screens/register_branch_screen.dart';
+import '../Events/create_event_screen.dart';
+import '../Screens/my_orders_screen.dart';
+import '../Screens/my_programs_screen.dart';
+import '../Screens/my_children_screen.dart';
+import '../Screens/my_services_screen.dart';
+import '../Screens/my_products_screen.dart';
+
 
 class HomePage extends StatelessWidget {
   final String userRole;
@@ -20,7 +31,10 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.notifications),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => NotificationsScreen()));
             },
           ),
           // Customer Support Button
@@ -50,7 +64,8 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.shopping_cart),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => CartScreen()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => CartScreen()));
             },
           ),
         ],
@@ -128,7 +143,10 @@ class HomePage extends StatelessWidget {
       'My Orders',
       Icons.shopping_cart,
       () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MyOrdersScreen(role: role)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MyOrdersScreen(role: role)));
       },
     ));
 
@@ -138,18 +156,26 @@ class HomePage extends StatelessWidget {
         'My Bookings',
         Icons.book_online,
         () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MyBookingsScreen()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MyBookingsScreen()));
         },
       ));
     }
 
-    if (role == 'Clinic' || role == 'Coach' || role == 'Academy' || role == 'Online Store' || role == 'Store') {
+    if (role == 'Clinic' ||
+        role == 'Coach' ||
+        role == 'Academy' ||
+        role == 'Online Store' ||
+        role == 'Store') {
       buttons.add(_buildButton(
         context,
         'My Branches',
         Icons.store,
         () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MyBranchesScreen(role: role)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MyBranchesScreen(role: role)));
         },
       ));
     }
@@ -160,7 +186,8 @@ class HomePage extends StatelessWidget {
         'My Programs',
         Icons.book,
         () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MyProgramsScreen()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MyProgramsScreen()));
         },
       ));
     }
@@ -171,7 +198,10 @@ class HomePage extends StatelessWidget {
         'Register Myself',
         Icons.person_add,
         () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterBranchScreen(role: role)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => RegisterBranchScreen(role: role)));
         },
       ));
     }
@@ -182,7 +212,8 @@ class HomePage extends StatelessWidget {
         'My Children',
         Icons.child_care,
         () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MyChildrenScreen()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MyChildrenScreen()));
         },
       ));
     }
@@ -193,7 +224,10 @@ class HomePage extends StatelessWidget {
         'My Services',
         Icons.miscellaneous_services,
         () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MyServicesScreen(role: role)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MyServicesScreen(role: role)));
         },
       ));
     }
@@ -204,7 +238,10 @@ class HomePage extends StatelessWidget {
         'My Products',
         Icons.shopping_bag,
         () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MyProductsScreen(role: role)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MyProductsScreen(role: role)));
         },
       ));
     }
@@ -215,7 +252,8 @@ class HomePage extends StatelessWidget {
         'Create Event',
         Icons.event,
         () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => CreateEventScreen()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CreateEventScreen()));
         },
       ));
     }
@@ -226,12 +264,14 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildButton(BuildContext context, String label, IconData icon, VoidCallback onPressed) {
+  Widget _buildButton(BuildContext context, String label, IconData icon,
+      VoidCallback onPressed) {
     return Card(
       margin: EdgeInsets.only(bottom: 16),
       child: ListTile(
         leading: Icon(icon, size: 40),
-        title: Text(label, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        title: Text(label,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         onTap: onPressed,
       ),
     );

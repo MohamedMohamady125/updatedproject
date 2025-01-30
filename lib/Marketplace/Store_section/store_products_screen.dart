@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class StoreProductsScreen extends StatelessWidget {
   final String storeName;
 
-  StoreProductsScreen({required this.storeName});
+  StoreProductsScreen({required this.storeName, required String userRole});
 
   final List<Map<String, dynamic>> _products = [
     {
@@ -35,7 +35,8 @@ class StoreProductsScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.network(product['photos'][0], height: 150, fit: BoxFit.cover),
+                Image.network(product['photos'][0],
+                    height: 150, fit: BoxFit.cover),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
@@ -43,7 +44,8 @@ class StoreProductsScreen extends StatelessWidget {
                     children: [
                       Text(
                         product['itemType'],
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       Text('Price: ${product['price']}'),
                       Text(
@@ -54,7 +56,9 @@ class StoreProductsScreen extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Feature not available in Store view.')),
+                            SnackBar(
+                                content: Text(
+                                    'Feature not available in Store view.')),
                           );
                         },
                         child: Text('Add to Cart'),
