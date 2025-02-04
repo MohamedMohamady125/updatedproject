@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
-import 'create_account_screen.dart';
-import '../screens/ForgotPasswordEmailScreen.dart';
+import '../auth/forgot_password_code_screen.dart'; // Ensure this import path is correct
 
-class WelcomePage extends StatelessWidget {
+class ForgotPasswordEmailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +27,7 @@ class WelcomePage extends StatelessWidget {
             children: [
               // Title
               Text(
-                "SIGN IN TO YOUR ACCOUNT",
+                "RESET YOUR PASSWORD",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -70,52 +68,17 @@ class WelcomePage extends StatelessWidget {
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),
-              SizedBox(height: 16),
-              // Password Field
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  filled: true,
-                  fillColor: const Color.fromARGB(
-                      255, 240, 240, 240), // Light gray background
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(
-                        color: Colors.transparent), // Transparent border
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(
-                      color: const Color.fromARGB(
-                          255, 79, 165, 245), // Blue border on focus
-                      width: 2.0,
-                    ),
-                  ),
-                  labelStyle: TextStyle(color: Colors.grey), // Default color
-                  floatingLabelStyle: TextStyle(
-                    color: const Color.fromARGB(
-                        255, 79, 165, 245), // Label color on focus
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide.none, // No border
-                  ),
-                ),
-                obscureText: true,
-              ),
-              SizedBox(height: 16),
-              // Sign In Button
+              SizedBox(height: 20),
+              // Send Reset Code Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Navigate to HomePage
+                    // Navigate to ForgotPasswordCodeScreen
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HomePage(
-                            userRole:
-                                'Swimmer'), // Pass user role or relevant data
+                        builder: (context) => ForgotPasswordCodeScreen(),
                       ),
                     );
                   },
@@ -128,7 +91,7 @@ class WelcomePage extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'SIGN IN',
+                    'SEND RESET CODE',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.white, // Make the text white
@@ -137,53 +100,16 @@ class WelcomePage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 16),
-              // Forgot Password
+              // Go Back Link
               GestureDetector(
                 onTap: () {
-                  // Navigate to Forgot Password Email Screen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ForgotPasswordEmailScreen(),
-                    ),
-                  );
+                  Navigator.pop(context);
                 },
                 child: Text(
-                  "Forgot your password?",
+                  "Go Back",
                   style: TextStyle(
                     color: const Color.fromARGB(255, 79, 165, 245),
-                    
-                  ),
-                ),
-              ),
-              SizedBox(height: 24),
-              Divider(color: const Color.fromARGB(255, 158, 158, 158)),
-              SizedBox(height: 24),
-              // Create Account Button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CreateAccountPage()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(
-                        255, 79, 165, 245), // Match the background color
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                  child: Text(
-                    'CREATE ACCOUNT',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white, // Make the text white
-                    ),
+                  
                   ),
                 ),
               ),

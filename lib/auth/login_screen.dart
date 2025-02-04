@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'verification_page.dart';
+import '../auth/verification_page.dart';
 
 class LoginPage extends StatefulWidget {
   final bool isResetPasswordMode;

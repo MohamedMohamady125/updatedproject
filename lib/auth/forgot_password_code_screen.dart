@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/ForgotPasswordEmailScreen.dart';
+import '../auth/forgot_password_email_screen.dart';
 
 class ForgotPasswordCodeScreen extends StatelessWidget {
   final List<TextEditingController> _controllers = List.generate(

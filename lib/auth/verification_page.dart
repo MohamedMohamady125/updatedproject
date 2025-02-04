@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../users/swimmers/home_page.dart';
+import '../users/coaches/home_page.dart';
+import '../users/academies/home_page.dart';
+import '../users/vendors/home_page.dart';
 
 class VerificationPage extends StatelessWidget {
   final bool forPasswordReset;
@@ -15,17 +19,17 @@ class VerificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 79, 165, 245), // Background color
+      backgroundColor: const Color.fromARGB(255, 79, 165, 245),
       body: Center(
         child: Container(
-          width: 350, // Adjust width to make the card centered
+          width: 350,
           padding: const EdgeInsets.all(24.0),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16.0),
             boxShadow: [
               BoxShadow(
-                color: const Color.fromARGB(31, 0, 0, 0), // Light shadow
+                color: const Color.fromARGB(31, 0, 0, 0),
                 blurRadius: 10,
                 offset: Offset(0, 5),
               ),
@@ -34,7 +38,6 @@ class VerificationPage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Title
               Text(
                 "EMAIL VERIFICATION",
                 style: TextStyle(
@@ -45,14 +48,12 @@ class VerificationPage extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 24),
-              // Instruction Text
               Text(
                 "We've sent you a verification code to your email. Please enter the code below to continue.",
                 style: TextStyle(fontSize: 16, color: Colors.black87),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 20),
-              // Code Input Fields
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(
@@ -66,46 +67,49 @@ class VerificationPage extends StatelessWidget {
                       maxLength: 1,
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: const Color.fromARGB(255, 240, 240, 240), // Light gray background
+                        fillColor: const Color.fromARGB(255, 240, 240, 240),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                           borderSide: BorderSide(
-                            color: const Color.fromARGB(255, 79, 165, 245), // Visible blue border
+                            color: const Color.fromARGB(255, 79, 165, 245),
                             width: 1.5,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                           borderSide: BorderSide(
-                            color: const Color.fromARGB(255, 79, 165, 245), // Blue border on focus
+                            color: const Color.fromARGB(255, 79, 165, 245),
                             width: 2.0,
                           ),
                         ),
-                        counterText: '', // Remove the counter
+                        counterText: '',
                       ),
                     ),
                   ),
                 ),
               ),
               SizedBox(height: 20),
-              // Verify Code Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     final code = _controllers.map((e) => e.text).join();
                     if (code.length == 6) {
-                      // Navigate to Home Page on successful verification
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomePage(
-                              userRole:
-                                  'User'), // Replace 'User' with actual user role
-                        ),
-                      );
-                      if (onVerificationSuccess != null) {
-                        onVerificationSuccess!();
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      String? userRole = prefs.getString('user_role');
+
+                      print(
+                          "Retrieved user role: \$userRole"); // Debugging print
+
+                      if (userRole != null && userRole.isNotEmpty) {
+                        _navigateToHomePage(context, userRole);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(
+                                  "User role not found. Please log in again.")),
+                        );
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -114,8 +118,7 @@ class VerificationPage extends StatelessWidget {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(
-                        255, 79, 165, 245), // Match the background color
+                    backgroundColor: const Color.fromARGB(255, 79, 165, 245),
                     padding: EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
@@ -125,7 +128,7 @@ class VerificationPage extends StatelessWidget {
                     'VERIFY CODE',
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white, // Make the text white
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -134,6 +137,41 @@ class VerificationPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _navigateToHomePage(BuildContext context, String userRole) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+        'user_role', userRole); // Ensure it's stored correctly
+
+    print("Navigating to home page with role: $userRole");
+
+    Widget homePage;
+    switch (userRole) {
+      case 'Swimmer or Parent': // ✅ Handle both as one
+        homePage = SwimmerHomePage(userRole: userRole);
+        break;
+      case 'Coach':
+        homePage = CoachHomePage();
+        break;
+      case 'Academy':
+        homePage = AcademyHomePage();
+        break;
+      case 'Vendor':
+        homePage = VendorHomePage();
+        break;
+      default:
+        print("User role not found!"); // Debugging
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("User role not found. Please log in again.")),
+        );
+        return;
+    }
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => homePage),
     );
   }
 }

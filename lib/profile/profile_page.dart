@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'verification_page.dart';
-import '../screens/home_page.dart';
+import '../auth/verification_page.dart';
+import '../users/swimmers/home_page.dart';
+import '../users/parents/home_page.dart';
+import '../users/coaches/home_page.dart';
+import '../users/academies/home_page.dart';
+import '../users/vendors/home_page.dart';
 
 class ProfilePage extends StatefulWidget {
   final String fullName;
