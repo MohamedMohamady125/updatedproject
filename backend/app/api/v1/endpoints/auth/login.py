@@ -1,49 +1,21 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy.orm import Session
-from datetime import timedelta
-from typing import Annotated
-from app.models import models  # Assuming you have a User model
-from app.schemas.profiles.user import UserResponse  # Assuming you have a UserResponse schema
-from app.db.database import get_db  # Database session dependency
-from app.core.security import create_access_token  # Utility function to create access tokens
-from app.api.v1.endpoints.users.user import verify_password
+from app.db.database import db_session
+from app.models import User
+from app.api.v1.endpoints.auth.token import create_access_token
+from app.api.v1.endpoints.auth.utils import verify_password
 
-router = APIRouter(prefix="/auth", tags=["auth"])
+router = APIRouter()
 
-@router.post("/login", response_model=UserResponse)
-async def login(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-    db: Session = Depends(get_db)
-):
-    """
-    Authenticate a user and return an access token.
+@router.post("/auth/login")
+def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = db_session.query(User).filter(User.email == form_data.username).first()
 
-    - **username**: The user's email.
-    - **password**: The user's password.
-    """
-    # Fetch the user from the database
-    user = db.query(models.User).filter(models.User.email == form_data.username).first()
-    
-    # Check if the user exists and the password is correct
-    if not user or not verify_password(form_data.password, user.hashed_password):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect email or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    
-    # Create an access token for the user
-    access_token_expires = timedelta(minutes=30)  # Token expiration time
-    access_token = create_access_token(
-        data={"sub": user.email},
-        expires_delta=access_token_expires
-    )
-    
-    # Return the user's data along with the access token
-    return {
-        "email": user.email,
-        "full_name": user.full_name,
-        "access_token": access_token,
-        "token_type": "bearer"
-    }
+    if not user or not verify_password(form_data.password, user.password):
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+
+    if not user.is_verified:
+        raise HTTPException(status_code=403, detail="Email not verified")
+
+    access_token = create_access_token({"sub": user.email, "user_id": user.id})
+    return {"access_token": access_token, "token_type": "bearer"}

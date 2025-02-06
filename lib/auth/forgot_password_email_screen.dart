@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../auth/forgot_password_code_screen.dart'; // Ensure this import path is correct
 
 class ForgotPasswordEmailScreen extends StatelessWidget {
+  const ForgotPasswordEmailScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,9 +16,9 @@ class ForgotPasswordEmailScreen extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16.0),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
-                color: const Color.fromARGB(31, 0, 0, 0), // Light shadow
+                color: Color.fromARGB(31, 0, 0, 0), // Light shadow
                 blurRadius: 10,
                 offset: Offset(0, 5),
               ),
@@ -26,16 +28,16 @@ class ForgotPasswordEmailScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Title
-              Text(
+              const Text(
                 "RESET YOUR PASSWORD",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 79, 165, 245),
+                  color: Color.fromARGB(255, 79, 165, 245),
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               // Email Field
               TextFormField(
                 decoration: InputDecoration(
@@ -45,20 +47,20 @@ class ForgotPasswordEmailScreen extends StatelessWidget {
                       255, 240, 240, 240), // Light gray background
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                         color: Colors.transparent), // Transparent border
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(
-                      color: const Color.fromARGB(
+                    borderSide: const BorderSide(
+                      color: Color.fromARGB(
                           255, 79, 165, 245), // Blue border on focus
                       width: 2.0,
                     ),
                   ),
-                  labelStyle: TextStyle(color: Colors.grey), // Default color
-                  floatingLabelStyle: TextStyle(
-                    color: const Color.fromARGB(
+                  labelStyle: const TextStyle(color: Colors.grey), // Default color
+                  floatingLabelStyle: const TextStyle(
+                    color: Color.fromARGB(
                         255, 79, 165, 245), // Label color on focus
                   ),
                   border: OutlineInputBorder(
@@ -68,7 +70,7 @@ class ForgotPasswordEmailScreen extends StatelessWidget {
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Send Reset Code Button
               SizedBox(
                 width: double.infinity,
@@ -85,12 +87,12 @@ class ForgotPasswordEmailScreen extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(
                         255, 79, 165, 245), // Match the background color
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'SEND RESET CODE',
                     style: TextStyle(
                       fontSize: 16,
@@ -99,16 +101,16 @@ class ForgotPasswordEmailScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               // Go Back Link
               GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: Text(
+                child: const Text(
                   "Go Back",
                   style: TextStyle(
-                    color: const Color.fromARGB(255, 79, 165, 245),
+                    color: Color.fromARGB(255, 79, 165, 245),
                   
                   ),
                 ),

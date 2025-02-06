@@ -7,6 +7,8 @@ import '../academies/my_branches_screen.dart';
 import '../academies/register_branch_screen.dart';
 
 class AcademyHomePage extends StatefulWidget {
+  const AcademyHomePage({super.key});
+
   @override
   _AcademyHomePageState createState() => _AcademyHomePageState();
 }
@@ -42,7 +44,7 @@ class _AcademyHomePageState extends State<AcademyHomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Academy Dashboard'),
+        title: const Text('Academy Dashboard'),
         centerTitle: true,
       ),
       body: Padding(
@@ -82,7 +84,7 @@ class _AcademyHomePageState extends State<AcademyHomePage>
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events'),
@@ -126,7 +128,7 @@ class AnimatedItem extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
 
-  const AnimatedItem({
+  const AnimatedItem({super.key, 
     required this.animation,
     required this.animationController,
     required this.icon,
@@ -152,8 +154,8 @@ class AnimatedItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(icon, size: 50, color: Colors.blue),
-                    SizedBox(height: 10),
-                    Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 10),
+                    Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),

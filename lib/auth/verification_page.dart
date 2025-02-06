@@ -9,7 +9,7 @@ class VerificationPage extends StatelessWidget {
   final bool forPasswordReset;
   final VoidCallback? onVerificationSuccess;
 
-  VerificationPage({this.forPasswordReset = false, this.onVerificationSuccess});
+  VerificationPage({super.key, this.forPasswordReset = false, this.onVerificationSuccess});
 
   final List<TextEditingController> _controllers = List.generate(
     6,
@@ -27,9 +27,9 @@ class VerificationPage extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16.0),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
-                color: const Color.fromARGB(31, 0, 0, 0),
+                color: Color.fromARGB(31, 0, 0, 0),
                 blurRadius: 10,
                 offset: Offset(0, 5),
               ),
@@ -38,22 +38,22 @@ class VerificationPage extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              const Text(
                 "EMAIL VERIFICATION",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 79, 165, 245),
+                  color: Color.fromARGB(255, 79, 165, 245),
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 24),
-              Text(
+              const SizedBox(height: 24),
+              const Text(
                 "We've sent you a verification code to your email. Please enter the code below to continue.",
                 style: TextStyle(fontSize: 16, color: Colors.black87),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(
@@ -70,15 +70,15 @@ class VerificationPage extends StatelessWidget {
                         fillColor: const Color.fromARGB(255, 240, 240, 240),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide(
-                            color: const Color.fromARGB(255, 79, 165, 245),
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 79, 165, 245),
                             width: 1.5,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide(
-                            color: const Color.fromARGB(255, 79, 165, 245),
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 79, 165, 245),
                             width: 2.0,
                           ),
                         ),
@@ -88,7 +88,7 @@ class VerificationPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -106,25 +106,25 @@ class VerificationPage extends StatelessWidget {
                         _navigateToHomePage(context, userRole);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                               content: Text(
                                   "User role not found. Please log in again.")),
                         );
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Please enter a valid code.")),
+                        const SnackBar(content: Text("Please enter a valid code.")),
                       );
                     }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 79, 165, 245),
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'VERIFY CODE',
                     style: TextStyle(
                       fontSize: 16,
@@ -164,7 +164,7 @@ class VerificationPage extends StatelessWidget {
       default:
         print("User role not found!"); // Debugging
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("User role not found. Please log in again.")),
+          const SnackBar(content: Text("User role not found. Please log in again.")),
         );
         return;
     }

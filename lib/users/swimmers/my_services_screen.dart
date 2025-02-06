@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyServicesScreen extends StatelessWidget {
   final String role; // Clinic, Coach, or Academy
 
-  MyServicesScreen({required this.role});
+  MyServicesScreen({super.key, required this.role});
 
   final List<Map<String, String>> services = [
     {
@@ -22,7 +22,7 @@ class MyServicesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Services'),
+        title: const Text('My Services'),
       ),
       body: Column(
         children: [
@@ -32,7 +32,7 @@ class MyServicesScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final service = services[index];
                 return Card(
-                  margin: EdgeInsets.all(8),
+                  margin: const EdgeInsets.all(8),
                   child: ListTile(
                     title: Text(service['name']!),
                     subtitle: Column(
@@ -42,7 +42,7 @@ class MyServicesScreen extends StatelessWidget {
                         Text('Description: ${service['description']}'),
                       ],
                     ),
-                    trailing: Icon(Icons.edit),
+                    trailing: const Icon(Icons.edit),
                     onTap: () {
                       // Implement Edit Functionality
                     },
@@ -57,7 +57,7 @@ class MyServicesScreen extends StatelessWidget {
               onPressed: () {
                 // Implement Add Service Functionality
               },
-              child: Text('Add Service'),
+              child: const Text('Add Service'),
             ),
           ),
         ],

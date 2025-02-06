@@ -2,14 +2,16 @@
 import 'package:flutter/material.dart';
 
 class MyBookingsScreen extends StatelessWidget {
+  const MyBookingsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Bookings'),
+        title: const Text('My Bookings'),
         centerTitle: true,
       ),
-      body: Center(child: Text('List of bookings will be displayed here.')),
+      body: const Center(child: Text('List of bookings will be displayed here.')),
     );
   }
 }

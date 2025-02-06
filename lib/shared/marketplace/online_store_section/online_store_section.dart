@@ -4,7 +4,7 @@ import 'store_products_screen.dart';
 class OnlineStoreSection extends StatelessWidget {
   final String userRole; // Role determines cart restrictions
 
-  OnlineStoreSection({required this.userRole});
+  OnlineStoreSection({super.key, required this.userRole});
 
   final List<Map<String, dynamic>> _onlineStores = [
     {
@@ -28,7 +28,7 @@ class OnlineStoreSection extends StatelessWidget {
       itemBuilder: (context, index) {
         final store = _onlineStores[index];
         return Card(
-          margin: EdgeInsets.all(16),
+          margin: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -38,7 +38,7 @@ class OnlineStoreSection extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(store['name'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text(store['name'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     Text('Delivery Fee: ${store['deliveryFee']}'),
                     Text('Delivery Time: ${store['deliveryTime']}'),
                     ElevatedButton(
@@ -53,7 +53,7 @@ class OnlineStoreSection extends StatelessWidget {
                           ),
                         );
                       },
-                      child: Text('Show Products'),
+                      child: const Text('Show Products'),
                     ),
                   ],
                 ),

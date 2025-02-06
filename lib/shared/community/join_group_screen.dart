@@ -6,13 +6,15 @@ class JoinGroupScreen extends StatelessWidget {
     {'name': 'Parents Circle', 'description': 'A group for parents'},
   ];
 
+  const JoinGroupScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 79, 165, 245),
+        backgroundColor: const Color.fromARGB(255, 79, 165, 245),
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Join Group',
           style: TextStyle(
             color: Colors.white,
@@ -22,7 +24,7 @@ class JoinGroupScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -33,7 +35,7 @@ class JoinGroupScreen extends StatelessWidget {
           ),
         ),
         child: ListView.builder(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
           itemCount: _groups.length,
           itemBuilder: (context, index) {
             final group = _groups[index];
@@ -42,11 +44,11 @@ class JoinGroupScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               elevation: 5,
-              margin: EdgeInsets.only(bottom: 16),
+              margin: const EdgeInsets.only(bottom: 16),
               child: ListTile(
                 title: Text(
                   group['name'],
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 79, 165, 245),
                   ),
@@ -56,25 +58,25 @@ class JoinGroupScreen extends StatelessWidget {
                   style: TextStyle(color: Colors.grey[700]),
                 ),
                 trailing: PopupMenuButton<String>(
-                  icon: Icon(Icons.more_vert,
+                  icon: const Icon(Icons.more_vert,
                       color: Color.fromARGB(255, 79, 165, 245)),
                   onSelected: (value) {
                     if (value == 'Invite') {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Group URL copied!')),
+                        const SnackBar(content: Text('Group URL copied!')),
                       );
                     } else if (value == 'Leave') {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Left the group!')),
+                        const SnackBar(content: Text('Left the group!')),
                       );
                     }
                   },
                   itemBuilder: (context) => [
-                    PopupMenuItem(
+                    const PopupMenuItem(
                       value: 'Invite',
                       child: Text('Invite'),
                     ),
-                    PopupMenuItem(
+                    const PopupMenuItem(
                       value: 'Leave',
                       child: Text('Leave Group'),
                     ),

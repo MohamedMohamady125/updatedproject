@@ -10,7 +10,7 @@ import '../swimmers/my_children_screen.dart';
 class SwimmerHomePage extends StatelessWidget {
   final String userRole;
 
-  SwimmerHomePage({required this.userRole});
+  const SwimmerHomePage({super.key, required this.userRole});
 
   @override
   Widget build(BuildContext context) {
@@ -18,21 +18,21 @@ class SwimmerHomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text('Home'),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.support_agent),
+            icon: const Icon(Icons.support_agent),
             onPressed: () {
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: Text('Customer Support'),
-                  content: Text('For assistance, call us at:\n\n0101708211'),
+                  title: const Text('Customer Support'),
+                  content: const Text('For assistance, call us at:\n\n0101708211'),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: Text('Close'),
+                      child: const Text('Close'),
                     ),
                   ],
                 ),
@@ -44,7 +44,7 @@ class SwimmerHomePage extends StatelessWidget {
       body: _buildRoleSpecificButtons(context, userRole),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events'),
@@ -126,7 +126,7 @@ class SwimmerHomePage extends StatelessWidget {
     }
 
     return ListView(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       children: buttons,
     );
   }
@@ -134,11 +134,11 @@ class SwimmerHomePage extends StatelessWidget {
   Widget _buildButton(BuildContext context, String label, IconData icon,
       VoidCallback onPressed) {
     return Card(
-      margin: EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: 16),
       child: ListTile(
         leading: Icon(icon, size: 40),
         title: Text(label,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         onTap: onPressed,
       ),
     );

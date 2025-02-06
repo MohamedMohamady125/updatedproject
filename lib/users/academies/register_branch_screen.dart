@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class RegisterBranchScreen extends StatefulWidget {
   final String role;
 
-  RegisterBranchScreen({required this.role});
+  const RegisterBranchScreen({super.key, required this.role});
 
   @override
   _RegisterBranchScreenState createState() => _RegisterBranchScreenState();
@@ -45,7 +45,7 @@ class _RegisterBranchScreenState extends State<RegisterBranchScreen> {
   void saveBranch() {
     Navigator.pop(context);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Branch Registered/Updated Successfully!')),
+      const SnackBar(content: Text('Branch Registered/Updated Successfully!')),
     );
   }
 
@@ -62,29 +62,29 @@ class _RegisterBranchScreenState extends State<RegisterBranchScreen> {
           children: [
             TextFormField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: 'Name'),
+              decoration: const InputDecoration(labelText: 'Name'),
               onChanged: (_) => setState(() => changesMade = true),
             ),
             if (widget.role != 'Clinic' && widget.role != 'Online Academy')
               TextFormField(
                 controller: _specialtyController,
-                decoration: InputDecoration(labelText: 'Specialty'),
+                decoration: const InputDecoration(labelText: 'Specialty'),
                 onChanged: (_) => setState(() => changesMade = true),
               ),
             TextFormField(
               controller: _locationController,
-              decoration: InputDecoration(labelText: 'Location'),
+              decoration: const InputDecoration(labelText: 'Location'),
               onChanged: (_) => setState(() => changesMade = true),
             ),
             TextFormField(
               controller: _gpsUrlController,
-              decoration: InputDecoration(labelText: 'GPS URL'),
+              decoration: const InputDecoration(labelText: 'GPS URL'),
               onChanged: (_) => setState(() => changesMade = true),
             ),
             if (widget.role != 'Online Store')
               TextFormField(
                 controller: _phoneController,
-                decoration: InputDecoration(labelText: 'Phone Number'),
+                decoration: const InputDecoration(labelText: 'Phone Number'),
                 keyboardType: TextInputType.phone,
                 onChanged: (_) => setState(() => changesMade = true),
               ),
@@ -105,7 +105,7 @@ class _RegisterBranchScreenState extends State<RegisterBranchScreen> {
                         changesMade = true;
                       });
                     },
-                    decoration: InputDecoration(labelText: 'Cancellation Policy (Hours)'),
+                    decoration: const InputDecoration(labelText: 'Cancellation Policy (Hours)'),
                   ),
                   DropdownButtonFormField<int>(
                     value: selectedTimeSlotInterval ?? timeSlotIntervals.first,
@@ -121,12 +121,12 @@ class _RegisterBranchScreenState extends State<RegisterBranchScreen> {
                         changesMade = true;
                       });
                     },
-                    decoration: InputDecoration(labelText: 'Time Slot Interval (Minutes)'),
+                    decoration: const InputDecoration(labelText: 'Time Slot Interval (Minutes)'),
                   ),
                 ],
               ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Services Available at this Branch:',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
@@ -142,10 +142,10 @@ class _RegisterBranchScreenState extends State<RegisterBranchScreen> {
                 },
               );
             }),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: changesMade ? saveBranch : null,
-              child: Text('Save Changes'),
+              child: const Text('Save Changes'),
             ),
           ],
         ),

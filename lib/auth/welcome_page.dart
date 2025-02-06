@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import '../auth/create_account_screen.dart';
 import '../auth/forgot_password_email_screen.dart';
 import '../users/swimmers/home_page.dart';
-import '../users/parents/home_page.dart';
-import '../users/coaches/home_page.dart';
-import '../users/academies/home_page.dart';
-import '../users/vendors/home_page.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});

@@ -8,17 +8,19 @@ import '../../shared/marketplace/marketplace_screen.dart';
 class CoachHomePage extends StatelessWidget {
   final String userRole = 'Coach';
 
+  const CoachHomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text('Home'),
         centerTitle: true,
       ),
-      body: Center(child: Text('Welcome to the Coach Dashboard')),
+      body: const Center(child: Text('Welcome to the Coach Dashboard')),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events'),
@@ -45,12 +47,12 @@ class CoachHomePage extends StatelessWidget {
     );
   }
 }
-  final String userRole = 'Coach';
+  const String userRole = 'Coach';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Coach Home")),
-      body: Center(child: Text("Welcome to the Coach Dashboard")),
+      appBar: AppBar(title: const Text("Coach Home")),
+      body: const Center(child: Text("Welcome to the Coach Dashboard")),
     );
   }

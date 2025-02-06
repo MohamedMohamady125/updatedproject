@@ -7,6 +7,8 @@ class ForgotPasswordCodeScreen extends StatelessWidget {
     (index) => TextEditingController(),
   );
 
+  ForgotPasswordCodeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,9 +20,9 @@ class ForgotPasswordCodeScreen extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16.0),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
-                color: const Color.fromARGB(31, 0, 0, 0), // Light shadow
+                color: Color.fromARGB(31, 0, 0, 0), // Light shadow
                 blurRadius: 10,
                 offset: Offset(0, 5),
               ),
@@ -30,23 +32,23 @@ class ForgotPasswordCodeScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Title
-              Text(
+              const Text(
                 "ENTER RESET CODE",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 79, 165, 245),
+                  color: Color.fromARGB(255, 79, 165, 245),
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               // Instruction Text
-              Text(
+              const Text(
                 "Enter the 6-digit code sent to your email.",
                 style: TextStyle(fontSize: 16, color: Colors.black87),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Code Input Fields
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -64,15 +66,15 @@ class ForgotPasswordCodeScreen extends StatelessWidget {
                         fillColor: const Color.fromARGB(255, 240, 240, 240), // Light gray background
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide(
-                            color: const Color.fromARGB(255, 79, 165, 245), // Visible blue border
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 79, 165, 245), // Visible blue border
                             width: 1.5,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide(
-                            color: const Color.fromARGB(255, 79, 165, 245), // Blue border on focus
+                          borderSide: const BorderSide(
+                            color: Color.fromARGB(255, 79, 165, 245), // Blue border on focus
                             width: 2.0,
                           ),
                         ),
@@ -82,7 +84,7 @@ class ForgotPasswordCodeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Verify Code Button
               SizedBox(
                 width: double.infinity,
@@ -91,7 +93,7 @@ class ForgotPasswordCodeScreen extends StatelessWidget {
                     final code = _controllers.map((e) => e.text).join();
                     if (code.length == 6) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Code Verified")),
+                        const SnackBar(content: Text("Code Verified")),
                       );
                       // Navigate back to email screen
                       Navigator.pushReplacement(
@@ -102,19 +104,19 @@ class ForgotPasswordCodeScreen extends StatelessWidget {
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Please enter a valid 6-digit code")),
+                        const SnackBar(content: Text("Please enter a valid 6-digit code")),
                       );
                     }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(
                         255, 79, 165, 245), // Match the background color
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'VERIFY CODE',
                     style: TextStyle(
                       fontSize: 16,
@@ -123,7 +125,7 @@ class ForgotPasswordCodeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               // Go Back Button
               GestureDetector(
                 onTap: () {
@@ -134,10 +136,10 @@ class ForgotPasswordCodeScreen extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text(
+                child: const Text(
                   "Go Back to Email Screen",
                   style: TextStyle(
-                    color: const Color.fromARGB(255, 79, 165, 245),
+                    color: Color.fromARGB(255, 79, 165, 245),
                   ),
                 ),
               ),

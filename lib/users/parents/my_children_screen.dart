@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyChildrenScreen extends StatefulWidget {
+  const MyChildrenScreen({super.key});
+
   @override
   _MyChildrenScreenState createState() => _MyChildrenScreenState();
 }
@@ -25,7 +27,7 @@ class _MyChildrenScreenState extends State<MyChildrenScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Children'),
+        title: const Text('My Children'),
       ),
       body: Column(
         children: [
@@ -35,7 +37,7 @@ class _MyChildrenScreenState extends State<MyChildrenScreen> {
               itemBuilder: (context, index) {
                 final child = children[index];
                 return Card(
-                  margin: EdgeInsets.all(8),
+                  margin: const EdgeInsets.all(8),
                   child: ListTile(
                     title: Text(child['name']!),
                     subtitle: Column(
@@ -46,7 +48,7 @@ class _MyChildrenScreenState extends State<MyChildrenScreen> {
                         Text('Gender: ${child['gender']}'),
                       ],
                     ),
-                    trailing: Icon(Icons.edit),
+                    trailing: const Icon(Icons.edit),
                     onTap: () {
                       // Implement Edit Functionality
                     },
@@ -61,7 +63,7 @@ class _MyChildrenScreenState extends State<MyChildrenScreen> {
               onPressed: () {
                 // Implement Add Child Functionality
               },
-              child: Text('Add Child'),
+              child: const Text('Add Child'),
             ),
           ),
         ],

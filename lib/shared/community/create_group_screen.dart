@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CreateGroupScreen extends StatefulWidget {
+  const CreateGroupScreen({super.key});
+
   @override
   _CreateGroupScreenState createState() => _CreateGroupScreenState();
 }
@@ -19,37 +21,37 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
     'Clinic',
     'Event Organizer'
   ];
-  Map<String, bool> _roleSelection = {};
+  final Map<String, bool> _roleSelection = {};
   bool _everyoneSelected = false;
 
   @override
   void initState() {
     super.initState();
-    _roles.forEach((role) {
+    for (var role in _roles) {
       _roleSelection[role] = false;
-    });
+    }
   }
 
   void _onEveryoneSelected(bool? value) {
     setState(() {
       _everyoneSelected = value ?? false;
-      _roles.forEach((role) {
+      for (var role in _roles) {
         _roleSelection[role] = _everyoneSelected;
-      });
+      }
     });
   }
 
   void _onCreateGroup() {
     if (_groupNameController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Group name is required')),
+        const SnackBar(content: Text('Group name is required')),
       );
       return;
     }
     // Handle group creation logic here
     Navigator.pop(context); // Return to Community Screen
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Group created successfully!')),
+      const SnackBar(content: Text('Group created successfully!')),
     );
   }
 
@@ -57,9 +59,9 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 79, 165, 245),
+        backgroundColor: const Color.fromARGB(255, 79, 165, 245),
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Create Group',
           style: TextStyle(
             color: Colors.white,
@@ -69,7 +71,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
         centerTitle: true,
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -80,7 +82,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
           ),
         ),
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -97,7 +99,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               // Group Photo Upload
               TextButton(
                 onPressed: () {
@@ -109,15 +111,15 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                 },
                 child: Text(
                   _groupPhoto == null ? 'Upload Group Photo' : 'Photo Uploaded',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color.fromARGB(255, 79, 165, 245),
                     fontSize: 16,
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               // Roles Selection
-              Text(
+              const Text(
                 "Roles Allowed to Join:",
                 style: TextStyle(
                   fontSize: 16,
@@ -126,11 +128,11 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                 ),
               ),
               CheckboxListTile(
-                title: Text(
+                title: const Text(
                   "Everyone",
                   style: TextStyle(color: Colors.black),
                 ),
-                activeColor: Color.fromARGB(255, 79, 165, 245),
+                activeColor: const Color.fromARGB(255, 79, 165, 245),
                 value: _everyoneSelected,
                 onChanged: _onEveryoneSelected,
               ),
@@ -138,9 +140,9 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                 return CheckboxListTile(
                   title: Text(
                     role,
-                    style: TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                   ),
-                  activeColor: Color.fromARGB(255, 79, 165, 245),
+                  activeColor: const Color.fromARGB(255, 79, 165, 245),
                   value: _roleSelection[role],
                   onChanged: (value) {
                     setState(() {
@@ -151,20 +153,20 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                   },
                 );
               }).toList(),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Create Group Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: _onCreateGroup,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 79, 165, 245),
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: const Color.fromARGB(255, 79, 165, 245),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Create Group',
                     style: TextStyle(
                       fontSize: 16,

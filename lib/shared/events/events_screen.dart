@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class EventsScreen extends StatefulWidget {
+  const EventsScreen({super.key});
+
   @override
   _EventsScreenState createState() => _EventsScreenState();
 }
 
 class _EventsScreenState extends State<EventsScreen> {
   DateTimeRange? selectedDateRange;
-  RangeValues priceRange = RangeValues(0, 200);
+  RangeValues priceRange = const RangeValues(0, 200);
   String? selectedLocation;
   String? selectedEventType;
 
@@ -43,14 +45,14 @@ class _EventsScreenState extends State<EventsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Events'),
+        title: const Text('Events'),
       ),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ExpansionTile(
-              title: Text('Filters'),
+              title: const Text('Filters'),
               children: [
                 DropdownButtonFormField<String>(
                   value: selectedEventType,
@@ -59,7 +61,7 @@ class _EventsScreenState extends State<EventsScreen> {
                       selectedEventType = value;
                     });
                   },
-                  decoration: InputDecoration(labelText: 'Event Type'),
+                  decoration: const InputDecoration(labelText: 'Event Type'),
                   items: ['Competition', 'Workshop', 'Seminar']
                       .map((type) => DropdownMenuItem(
                             value: type,
@@ -97,7 +99,7 @@ class _EventsScreenState extends State<EventsScreen> {
                       });
                     }
                   },
-                  child: Text('Select Date Range'),
+                  child: const Text('Select Date Range'),
                 ),
                 DropdownButtonFormField<String>(
                   value: selectedLocation,
@@ -106,7 +108,7 @@ class _EventsScreenState extends State<EventsScreen> {
                       selectedLocation = value;
                     });
                   },
-                  decoration: InputDecoration(labelText: 'Location'),
+                  decoration: const InputDecoration(labelText: 'Location'),
                   items: ['New York', 'Los Angeles']
                       .map((loc) => DropdownMenuItem(
                             value: loc,
@@ -123,7 +125,7 @@ class _EventsScreenState extends State<EventsScreen> {
               itemBuilder: (context, index) {
                 final event = filteredEvents[index];
                 return Card(
-                  margin: EdgeInsets.all(8),
+                  margin: const EdgeInsets.all(8),
                   child: ListTile(
                     title: Text(event['title']!),
                     subtitle: Column(

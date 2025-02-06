@@ -8,6 +8,8 @@ import 'verification_page.dart';
 import 'welcome_page.dart';
 
 class CreateAccountPage extends StatefulWidget {
+  const CreateAccountPage({super.key});
+
   @override
   _CreateAccountPageState createState() => _CreateAccountPageState();
 }
@@ -33,18 +35,18 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 79, 165, 245),
+        backgroundColor: const Color.fromARGB(255, 79, 165, 245),
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => WelcomePage()),
+              MaterialPageRoute(builder: (context) => const WelcomePage()),
             );
           },
         ),
-        title: Text(
+        title: const Text(
           'Create Account',
           style: TextStyle(
             color: Colors.white,
@@ -55,14 +57,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
               TextFormField(
                 controller: _fullNameController,
-                decoration: InputDecoration(labelText: 'Full Name'),
+                decoration: const InputDecoration(labelText: 'Full Name'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your full name';
@@ -72,7 +74,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               ),
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'Email'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your email';
@@ -82,7 +84,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               ),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: const InputDecoration(labelText: 'Password'),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -93,7 +95,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               ),
               TextFormField(
                 controller: _confirmPasswordController,
-                decoration: InputDecoration(labelText: 'Confirm Password'),
+                decoration: const InputDecoration(labelText: 'Confirm Password'),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -107,7 +109,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               ),
               DropdownButtonFormField<String>(
                 value: _selectedRole,
-                decoration: InputDecoration(labelText: 'Role'),
+                decoration: const InputDecoration(labelText: 'Role'),
                 items: _roles.map((role) {
                   return DropdownMenuItem(
                     value: role,
@@ -126,7 +128,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
@@ -142,7 +144,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     );
                   }
                 },
-                child: Text('Create Account'),
+                child: const Text('Create Account'),
               ),
             ],
           ),
