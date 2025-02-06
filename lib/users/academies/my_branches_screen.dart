@@ -4,7 +4,7 @@ import 'register_branch_screen.dart';
 class MyBranchesScreen extends StatelessWidget {
   final String role;
 
-  MyBranchesScreen({required this.role});
+  MyBranchesScreen({super.key, required this.role});
 
   final List<Map<String, dynamic>> branches = [
     {
@@ -33,7 +33,7 @@ class MyBranchesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Branches'),
+        title: const Text('My Branches'),
         centerTitle: true,
       ),
       body: ListView.builder(
@@ -41,7 +41,7 @@ class MyBranchesScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final branch = branches[index];
           return Card(
-            margin: EdgeInsets.all(16),
+            margin: const EdgeInsets.all(16),
             child: ListTile(
               title: Text(branch['name']),
               subtitle: Column(
@@ -58,7 +58,7 @@ class MyBranchesScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              trailing: Icon(Icons.edit),
+              trailing: const Icon(Icons.edit),
               onTap: () {
                 Navigator.push(
                   context,

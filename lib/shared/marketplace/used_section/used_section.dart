@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class UsedSection extends StatefulWidget {
   final String userRole;
 
-  UsedSection({required this.userRole});
+  const UsedSection({super.key, required this.userRole});
 
   @override
   _UsedSectionState createState() => _UsedSectionState();
@@ -11,7 +11,7 @@ class UsedSection extends StatefulWidget {
 
 class _UsedSectionState extends State<UsedSection> {
   String? selectedItemType;
-  RangeValues priceRange = RangeValues(0, 500);
+  RangeValues priceRange = const RangeValues(0, 500);
   String? selectedLocation;
   String? selectedCondition;
 
@@ -59,7 +59,7 @@ class _UsedSectionState extends State<UsedSection> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Used Marketplace'),
+        title: const Text('Used Marketplace'),
       ),
       body: Column(
         children: [
@@ -68,7 +68,7 @@ class _UsedSectionState extends State<UsedSection> {
             child: StatefulBuilder(
               builder: (context, setState) {
                 return ExpansionTile(
-                  title: Text('Filters'),
+                  title: const Text('Filters'),
                   children: [
                     DropdownButtonFormField<String>(
                       value: selectedItemType,
@@ -78,7 +78,7 @@ class _UsedSectionState extends State<UsedSection> {
                         });
                         applyFilters();
                       },
-                      decoration: InputDecoration(labelText: 'Item Type'),
+                      decoration: const InputDecoration(labelText: 'Item Type'),
                       items: ['Accessories', 'Clothing', 'Equipment']
                           .map((type) => DropdownMenuItem(
                                 value: type,
@@ -115,7 +115,7 @@ class _UsedSectionState extends State<UsedSection> {
                         });
                         applyFilters();
                       },
-                      decoration: InputDecoration(labelText: 'Location'),
+                      decoration: const InputDecoration(labelText: 'Location'),
                       items: ['New York', 'Los Angeles']
                           .map((loc) => DropdownMenuItem(
                                 value: loc,
@@ -131,7 +131,7 @@ class _UsedSectionState extends State<UsedSection> {
                         });
                         applyFilters();
                       },
-                      decoration: InputDecoration(labelText: 'Condition'),
+                      decoration: const InputDecoration(labelText: 'Condition'),
                       items: ['New', 'Used']
                           .map((cond) => DropdownMenuItem(
                                 value: cond,
@@ -150,7 +150,7 @@ class _UsedSectionState extends State<UsedSection> {
               itemBuilder: (context, index) {
                 final item = filteredItems[index];
                 return Card(
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   child: ListTile(
                     title: Text(
                       item['name']!,

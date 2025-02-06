@@ -5,7 +5,7 @@ import 'store_products_screen.dart';
 class StoreSection extends StatelessWidget {
   final String userRole; // Role determines "Add Product" button visibility
 
-  StoreSection({required this.userRole});
+  StoreSection({super.key, required this.userRole});
 
   final List<Map<String, dynamic>> _stores = [
     {
@@ -28,7 +28,7 @@ class StoreSection extends StatelessWidget {
         itemBuilder: (context, index) {
           final store = _stores[index];
           return Card(
-            margin: EdgeInsets.all(16),
+            margin: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -39,7 +39,7 @@ class StoreSection extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(store['name'],
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold)),
                       Text('Location: ${store['location']}'),
                       Row(
@@ -57,7 +57,7 @@ class StoreSection extends StatelessWidget {
                                 ),
                               );
                             },
-                            child: Text('View Products'),
+                            child: const Text('View Products'),
                           ),
                           ElevatedButton(
                             onPressed: () {
@@ -69,7 +69,7 @@ class StoreSection extends StatelessWidget {
                                 ),
                               );
                             },
-                            child: Text('View Store Details'),
+                            child: const Text('View Store Details'),
                           ),
                         ],
                       ),
@@ -86,8 +86,8 @@ class StoreSection extends StatelessWidget {
               onPressed: () {
                 // Add Product button for Store role
               },
-              label: Text('Add Product'),
-              icon: Icon(Icons.add),
+              label: const Text('Add Product'),
+              icon: const Icon(Icons.add),
             )
           : null,
     );

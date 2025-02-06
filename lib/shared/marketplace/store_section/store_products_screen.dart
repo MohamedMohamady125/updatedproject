@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class StoreProductsScreen extends StatelessWidget {
   final String storeName;
 
-  StoreProductsScreen({required this.storeName, required String userRole});
+  StoreProductsScreen({super.key, required this.storeName, required String userRole});
 
   final List<Map<String, dynamic>> _products = [
     {
@@ -31,7 +31,7 @@ class StoreProductsScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final product = _products[index];
           return Card(
-            margin: EdgeInsets.all(16),
+            margin: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -44,24 +44,24 @@ class StoreProductsScreen extends StatelessWidget {
                     children: [
                       Text(
                         product['itemType'],
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       Text('Price: ${product['price']}'),
                       Text(
                         'Description: ${product['description']}',
-                        style: TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: Colors.grey),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       ElevatedButton(
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                                 content: Text(
                                     'Feature not available in Store view.')),
                           );
                         },
-                        child: Text('Add to Cart'),
+                        child: const Text('Add to Cart'),
                       ),
                     ],
                   ),

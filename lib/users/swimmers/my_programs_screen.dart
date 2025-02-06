@@ -18,11 +18,13 @@ class MyProgramsScreen extends StatelessWidget {
     },
   ];
 
+  const MyProgramsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Programs'),
+        title: const Text('My Programs'),
       ),
       body: Column(
         children: [
@@ -32,7 +34,7 @@ class MyProgramsScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final program = programs[index];
                 return Card(
-                  margin: EdgeInsets.all(8),
+                  margin: const EdgeInsets.all(8),
                   child: ListTile(
                     title: Text(program['name']!),
                     subtitle: Column(
@@ -43,7 +45,7 @@ class MyProgramsScreen extends StatelessWidget {
                         Text('Description: ${program['description']}'),
                       ],
                     ),
-                    trailing: Icon(Icons.arrow_forward),
+                    trailing: const Icon(Icons.arrow_forward),
                   ),
                 );
               },
@@ -55,7 +57,7 @@ class MyProgramsScreen extends StatelessWidget {
               onPressed: () {
                 // Implement Add Program Functionality
               },
-              child: Text('Add New Program'),
+              child: const Text('Add New Program'),
             ),
           ),
         ],

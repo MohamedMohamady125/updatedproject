@@ -11,7 +11,7 @@ class ProfilePage extends StatefulWidget {
   final String email;
   final String role;
 
-  ProfilePage({
+  const ProfilePage({super.key, 
     required this.fullName,
     required this.email,
     required this.role,
@@ -70,16 +70,16 @@ class _ProfilePageState extends State<ProfilePage> {
       final discardChanges = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Unsaved Changes'),
-          content: Text(
+          title: const Text('Unsaved Changes'),
+          content: const Text(
               'You have unsaved changes. Do you want to discard them and leave the page?'),
           actions: [
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () => Navigator.of(context).pop(false),
             ),
             TextButton(
-              child: Text('Discard'),
+              child: const Text('Discard'),
               onPressed: () => Navigator.of(context).pop(true),
             ),
           ],
@@ -100,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Profile updated successfully')),
+        const SnackBar(content: Text('Profile updated successfully')),
       );
       setState(() {
         _hasUnsavedChanges = false;
@@ -115,15 +115,15 @@ class _ProfilePageState extends State<ProfilePage> {
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 79, 165, 245),
+          backgroundColor: const Color.fromARGB(255, 79, 165, 245),
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
-          title: Text(
+          title: const Text(
             'Profile',
             style: TextStyle(
               color: Colors.white,
@@ -133,7 +133,7 @@ class _ProfilePageState extends State<ProfilePage> {
           centerTitle: true,
         ),
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -144,7 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -161,7 +161,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       radius: 50,
                       backgroundColor: Colors.white,
                       child: _profilePhoto == null
-                          ? Icon(
+                          ? const Icon(
                               Icons.camera_alt,
                               size: 30,
                               color: Color.fromARGB(255, 79, 165, 245),
@@ -170,7 +170,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Full Name
                 TextFormField(
                   controller: _nameController,
@@ -184,7 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 // Email
                 TextFormField(
                   controller: _emailController,
@@ -198,7 +198,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 // Role (Read-Only)
                 TextFormField(
                   initialValue: widget.role,
@@ -213,7 +213,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 // Gender
                 DropdownButtonFormField<String>(
                   decoration: InputDecoration(
@@ -239,7 +239,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     });
                   },
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 // Skill Level (For Swimmer Only)
                 if (isSwimmer)
                   DropdownButtonFormField<String>(
@@ -266,7 +266,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       });
                     },
                   ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 // Phone Number
                 TextFormField(
                   controller: _phoneController,
@@ -281,7 +281,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   keyboardType: TextInputType.phone,
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 // Language
                 DropdownButtonFormField<String>(
                   decoration: InputDecoration(
@@ -307,7 +307,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     });
                   },
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 // Country
                 DropdownButtonFormField<String>(
                   decoration: InputDecoration(
@@ -333,20 +333,20 @@ class _ProfilePageState extends State<ProfilePage> {
                     });
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Save Button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: _onSavePressed,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 79, 165, 245),
-                      padding: EdgeInsets.symmetric(vertical: 16),
+                      backgroundColor: const Color.fromARGB(255, 79, 165, 245),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Save Profile',
                       style: TextStyle(
                         fontSize: 16,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyOrdersScreen extends StatelessWidget {
   final String role; // Role of the user
 
-  MyOrdersScreen({required this.role});
+  MyOrdersScreen({super.key, required this.role});
 
   final List<Map<String, String>> userOrders = [
     {
@@ -49,14 +49,14 @@ class MyOrdersScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Orders'),
+        title: const Text('My Orders'),
       ),
       body: ListView.builder(
         itemCount: orders.length,
         itemBuilder: (context, index) {
           final order = orders[index];
           return Card(
-            margin: EdgeInsets.all(8),
+            margin: const EdgeInsets.all(8),
             child: ListTile(
               title: Text(isStore ? order['customerName']! : order['productName']!),
               subtitle: Column(
@@ -68,7 +68,7 @@ class MyOrdersScreen extends StatelessWidget {
                   Text('Total: ${order['total']}'),
                 ],
               ),
-              trailing: Icon(Icons.arrow_forward),
+              trailing: const Icon(Icons.arrow_forward),
             ),
           );
         },

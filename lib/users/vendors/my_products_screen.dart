@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyProductsScreen extends StatefulWidget {
   final String role; // Store or Online Store
 
-  MyProductsScreen({required this.role});
+  const MyProductsScreen({super.key, required this.role});
 
   @override
   _MyProductsScreenState createState() => _MyProductsScreenState();
@@ -29,7 +29,7 @@ class _MyProductsScreenState extends State<MyProductsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Products'),
+        title: const Text('My Products'),
       ),
       body: Column(
         children: [
@@ -39,7 +39,7 @@ class _MyProductsScreenState extends State<MyProductsScreen> {
               itemBuilder: (context, index) {
                 final product = products[index];
                 return Card(
-                  margin: EdgeInsets.all(8),
+                  margin: const EdgeInsets.all(8),
                   child: ListTile(
                     title: Text(product['name']!),
                     subtitle: Column(
@@ -54,13 +54,13 @@ class _MyProductsScreenState extends State<MyProductsScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.edit, color: Colors.blue),
+                          icon: const Icon(Icons.edit, color: Colors.blue),
                           onPressed: () {
                             // Implement edit functionality
                           },
                         ),
                         IconButton(
-                          icon: Icon(Icons.delete, color: Colors.red),
+                          icon: const Icon(Icons.delete, color: Colors.red),
                           onPressed: () {
                             setState(() {
                               products.removeAt(index);
@@ -80,7 +80,7 @@ class _MyProductsScreenState extends State<MyProductsScreen> {
               onPressed: () {
                 // Implement Add Product Functionality
               },
-              child: Text('Add Product'),
+              child: const Text('Add Product'),
             ),
           ),
         ],

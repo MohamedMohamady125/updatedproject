@@ -4,7 +4,7 @@ import '../auth/verification_page.dart';
 class LoginPage extends StatefulWidget {
   final bool isResetPasswordMode;
 
-  LoginPage({this.isResetPasswordMode = false});
+  const LoginPage({super.key, this.isResetPasswordMode = false});
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -35,25 +35,25 @@ class _LoginPageState extends State<LoginPage> {
                 isResetPasswordMode
                     ? "Enter your new password"
                     : "Login to your account",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Email Field
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.emailAddress,
                 readOnly: isResetPasswordMode, // Email is not editable in reset mode
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               // Password or New Password Field
               if (!isResetPasswordMode)
                 TextFormField(
                   controller: _passwordController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Password',
                     border: OutlineInputBorder(),
                   ),
@@ -63,24 +63,24 @@ class _LoginPageState extends State<LoginPage> {
               if (isResetPasswordMode)
                 TextFormField(
                   controller: _newPasswordController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'New Password',
                     border: OutlineInputBorder(),
                   ),
                   obscureText: true,
                 ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               // Confirm Password Field (Reset Password Mode)
               if (isResetPasswordMode)
                 TextFormField(
                   controller: _confirmPasswordController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Confirm Password',
                     border: OutlineInputBorder(),
                   ),
                   obscureText: true,
                 ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               // Forgot Password Link (Only in Normal Login Mode)
               if (!isResetPasswordMode)
                 Align(
@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       "Forgot Password?",
                       style: TextStyle(
                         color: Colors.blue,
@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Login or Reset Password Button
               SizedBox(
                 width: double.infinity,
@@ -115,11 +115,11 @@ class _LoginPageState extends State<LoginPage> {
                       if (_newPasswordController.text !=
                           _confirmPasswordController.text) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Passwords do not match')),
+                          const SnackBar(content: Text('Passwords do not match')),
                         );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Password Reset Successful!')),
+                          const SnackBar(content: Text('Password Reset Successful!')),
                         );
                         Navigator.pushReplacement(
                           context,
@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Logged In Successfully')),
+                        const SnackBar(content: Text('Logged In Successfully')),
                       );
                     }
                   },

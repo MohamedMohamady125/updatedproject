@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class EventDetailsScreen extends StatelessWidget {
   final Map<String, dynamic> event;
 
-  EventDetailsScreen({required this.event});
+  const EventDetailsScreen({super.key, required this.event});
 
   @override
   Widget build(BuildContext context) {
@@ -17,28 +17,28 @@ class EventDetailsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(event['photo'], height: 200, fit: BoxFit.cover),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               event['title'],
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text('Location: ${event['location']}'),
             Text('Price: ${event['price']}'),
-            SizedBox(height: 16),
-            Text(
+            const SizedBox(height: 16),
+            const Text(
               'Description: This is a placeholder description for the event.',
               style: TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Booking logic here
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Event booked successfully!')),
+                  const SnackBar(content: Text('Event booked successfully!')),
                 );
               },
-              child: Text('Book Event'),
+              child: const Text('Book Event'),
             ),
           ],
         ),

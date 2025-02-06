@@ -4,13 +4,15 @@ import '../community/join_group_screen.dart';
 import 'create_post_screen.dart';
 
 class CommunityScreen extends StatelessWidget {
+  const CommunityScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 79, 165, 245),
+        backgroundColor: const Color.fromARGB(255, 79, 165, 245),
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Community',
           style: TextStyle(
             color: Colors.white,
@@ -20,7 +22,7 @@ class CommunityScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -40,7 +42,7 @@ class CommunityScreen extends StatelessWidget {
                   itemCount: 5, // Replace with actual posts count
                   itemBuilder: (context, index) {
                     return Card(
-                      margin: EdgeInsets.symmetric(vertical: 8),
+                      margin: const EdgeInsets.symmetric(vertical: 8),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -48,7 +50,7 @@ class CommunityScreen extends StatelessWidget {
                       child: ListTile(
                         title: Text(
                           'Group Name $index',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 79, 165, 245),
                           ),
@@ -61,15 +63,15 @@ class CommunityScreen extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
-                              icon: Icon(Icons.thumb_up_alt_outlined),
-                              color: Color.fromARGB(255, 79, 165, 245),
+                              icon: const Icon(Icons.thumb_up_alt_outlined),
+                              color: const Color.fromARGB(255, 79, 165, 245),
                               onPressed: () {
                                 // Like post logic
                               },
                             ),
                             IconButton(
-                              icon: Icon(Icons.comment_outlined),
-                              color: Color.fromARGB(255, 79, 165, 245),
+                              icon: const Icon(Icons.comment_outlined),
+                              color: const Color.fromARGB(255, 79, 165, 245),
                               onPressed: () {
                                 // Comment on post logic
                               },
@@ -81,7 +83,7 @@ class CommunityScreen extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               // Create Group Button
               SizedBox(
                 width: double.infinity,
@@ -94,13 +96,13 @@ class CommunityScreen extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 79, 165, 245),
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: const Color.fromARGB(255, 79, 165, 245),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Create Group',
                     style: TextStyle(
                       fontSize: 16,
@@ -109,7 +111,7 @@ class CommunityScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               // Join Group Button
               SizedBox(
                 width: double.infinity,
@@ -122,13 +124,13 @@ class CommunityScreen extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 79, 165, 245),
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    backgroundColor: const Color.fromARGB(255, 79, 165, 245),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Join Group',
                     style: TextStyle(
                       fontSize: 16,
@@ -142,15 +144,15 @@ class CommunityScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Color.fromARGB(255, 79, 165, 245),
+        backgroundColor: const Color.fromARGB(255, 79, 165, 245),
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => CreatePostScreen()),
           );
         },
-        label: Text('Add New Post'),
-        icon: Icon(Icons.edit),
+        label: const Text('Add New Post'),
+        icon: const Icon(Icons.edit),
       ),
     );
   }

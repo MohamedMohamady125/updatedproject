@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CreatePostScreen extends StatefulWidget {
+  const CreatePostScreen({super.key});
+
   @override
   _CreatePostScreenState createState() => _CreatePostScreenState();
 }
@@ -16,7 +18,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     // Handle post creation logic here
     Navigator.pop(context); // Redirect back to Community Screen
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Post created successfully!')),
+      const SnackBar(content: Text('Post created successfully!')),
     );
   }
 
@@ -37,9 +39,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 79, 165, 245),
+        backgroundColor: const Color.fromARGB(255, 79, 165, 245),
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Create Post',
           style: TextStyle(
             color: Colors.white,
@@ -53,7 +55,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               'Post',
               style: TextStyle(
                 color: isPostButtonEnabled
-                    ? Color.fromARGB(255, 79, 165, 245)
+                    ? const Color.fromARGB(255, 79, 165, 245)
                     : Colors.grey,
                 fontSize: 16,
               ),
@@ -62,7 +64,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -78,7 +80,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // User Info
-              Row(
+              const Row(
                 children: [
                   CircleAvatar(
                     radius: 25,
@@ -102,7 +104,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Post Content Field
               TextFormField(
                 controller: _postContentController,
@@ -120,15 +122,15 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   setState(() {}); // Refresh to enable/disable Post button
                 },
               ),
-              Spacer(),
+              const Spacer(),
               // Photo Button
               TextButton.icon(
                 onPressed: _onSelectPhoto,
-                icon: Icon(
+                icon: const Icon(
                   Icons.photo,
                   color: Color.fromARGB(255, 79, 165, 245),
                 ),
-                label: Text(
+                label: const Text(
                   'Photo',
                   style: TextStyle(
                     color: Color.fromARGB(255, 79, 165, 245),
@@ -141,13 +143,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                   padding: const EdgeInsets.only(top: 10),
                   child: Text(
                     'Photo Selected: $_selectedPhoto',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
                 ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
             ],
           ),
         ),

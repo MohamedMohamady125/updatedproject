@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyChildrenScreen extends StatefulWidget {
+  const MyChildrenScreen({super.key});
+
   @override
   _MyChildrenScreenState createState() => _MyChildrenScreenState();
 }
@@ -30,7 +32,7 @@ class _MyChildrenScreenState extends State<MyChildrenScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Children'),
+        title: const Text('My Children'),
         centerTitle: true,
       ),
       body: Padding(
@@ -39,21 +41,21 @@ class _MyChildrenScreenState extends State<MyChildrenScreen> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: "Child's Name"),
+              decoration: const InputDecoration(labelText: "Child's Name"),
             ),
             TextField(
               controller: _ageController,
-              decoration: InputDecoration(labelText: 'Age'),
+              decoration: const InputDecoration(labelText: 'Age'),
               keyboardType: TextInputType.number,
             ),
             TextField(
               controller: _genderController,
-              decoration: InputDecoration(labelText: 'Gender'),
+              decoration: const InputDecoration(labelText: 'Gender'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _addChild,
-              child: Text('Add Child'),
+              child: const Text('Add Child'),
             ),
             Expanded(
               child: ListView.builder(

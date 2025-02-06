@@ -8,17 +8,19 @@ import '../../shared/marketplace/marketplace_screen.dart';
 class ParentHomePage extends StatelessWidget {
   final String userRole = 'Parent';
 
+  const ParentHomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: const Text('Home'),
         centerTitle: true,
       ),
-      body: Center(child: Text('Welcome to the Parent Dashboard')),
+      body: const Center(child: Text('Welcome to the Parent Dashboard')),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events'),
@@ -59,12 +61,12 @@ class ParentHomePage extends StatelessWidget {
   }
 }
 
-final String userRole = 'Parent';
+const String userRole = 'Parent';
 
 @override
 Widget build(BuildContext context) {
   return Scaffold(
-    appBar: AppBar(title: Text("Parent Home")),
-    body: Center(child: Text("Welcome to the Parent Dashboard")),
+    appBar: AppBar(title: const Text("Parent Home")),
+    body: const Center(child: Text("Welcome to the Parent Dashboard")),
   );
 }

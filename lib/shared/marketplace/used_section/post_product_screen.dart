@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PostProductScreen extends StatefulWidget {
+  const PostProductScreen({super.key});
+
   @override
   _PostProductScreenState createState() => _PostProductScreenState();
 }
@@ -15,46 +17,46 @@ class _PostProductScreenState extends State<PostProductScreen> {
 
   void _postProduct() {
     Navigator.pop(context);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Product Posted Successfully!')));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Product Posted Successfully!')));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Post Product')),
+      appBar: AppBar(title: const Text('Post Product')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
             TextFormField(
               controller: _itemTypeController,
-              decoration: InputDecoration(labelText: 'Item Type'),
+              decoration: const InputDecoration(labelText: 'Item Type'),
             ),
             TextFormField(
               controller: _brandController,
-              decoration: InputDecoration(labelText: 'Brand'),
+              decoration: const InputDecoration(labelText: 'Brand'),
             ),
             TextFormField(
               controller: _priceController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Price'),
+              decoration: const InputDecoration(labelText: 'Price'),
             ),
             TextFormField(
               controller: _locationController,
-              decoration: InputDecoration(labelText: 'Location'),
+              decoration: const InputDecoration(labelText: 'Location'),
             ),
             TextFormField(
               controller: _descriptionController,
               maxLines: 3,
-              decoration: InputDecoration(labelText: 'Description (Optional)'),
+              decoration: const InputDecoration(labelText: 'Description (Optional)'),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Condition:'),
+                const Text('Condition:'),
                 Row(
                   children: [
-                    Text('New'),
+                    const Text('New'),
                     Switch(
                       value: !_isNew,
                       onChanged: (value) {
@@ -63,14 +65,14 @@ class _PostProductScreenState extends State<PostProductScreen> {
                         });
                       },
                     ),
-                    Text('Used'),
+                    const Text('Used'),
                   ],
                 ),
               ],
             ),
             ElevatedButton(
               onPressed: _postProduct,
-              child: Text('Post Product'),
+              child: const Text('Post Product'),
             ),
           ],
         ),

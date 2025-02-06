@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class StoreProductsScreen extends StatelessWidget {
   final String storeName;
 
-  StoreProductsScreen({required this.storeName, required String userRole});
+  StoreProductsScreen({super.key, required this.storeName, required String userRole});
 
   final List<Map<String, dynamic>> _products = [
     {
@@ -27,7 +27,7 @@ class StoreProductsScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final product = _products[index];
           return Card(
-            margin: EdgeInsets.all(16),
+            margin: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -37,15 +37,15 @@ class StoreProductsScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(product['itemType'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text(product['itemType'], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                       Text('Price: ${product['price']}'),
                       ElevatedButton(
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Added to Cart!')),
+                            const SnackBar(content: Text('Added to Cart!')),
                           );
                         },
-                        child: Text('Add to Cart'),
+                        child: const Text('Add to Cart'),
                       ),
                     ],
                   ),
