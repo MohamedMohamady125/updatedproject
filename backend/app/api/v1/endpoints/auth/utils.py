@@ -32,7 +32,7 @@ def send_email(to_email: str, subject: str, body: str):
     sender_password = "your-email-password"
 
     msg = MIMEText(body)
-    msg["Subject"] = subject
+    msg["Subject"] = subject 
     msg["From"] = sender_email
     msg["To"] = to_email
 
