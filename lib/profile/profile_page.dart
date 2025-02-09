@@ -95,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => VerificationPage(),
+          builder: (context) => VerificationPage(role: '',),
         ),
       );
     } else {

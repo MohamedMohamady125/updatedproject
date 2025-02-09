@@ -4,12 +4,20 @@ import '../users/swimmers/home_page.dart';
 import '../users/coaches/home_page.dart';
 import '../users/academies/home_page.dart';
 import '../users/vendors/home_page.dart';
+import 'verification_page.dart';
+import 'welcome_page.dart';
+import '../users/clinic/clinic_home_page.dart';
 
 class VerificationPage extends StatelessWidget {
+  final String role;
   final bool forPasswordReset;
   final VoidCallback? onVerificationSuccess;
 
-  VerificationPage({super.key, this.forPasswordReset = false, this.onVerificationSuccess});
+  VerificationPage(
+      {super.key,
+      required this.role,
+      this.forPasswordReset = false,
+      this.onVerificationSuccess});
 
   final List<TextEditingController> _controllers = List.generate(
     6,
@@ -97,13 +105,11 @@ class VerificationPage extends StatelessWidget {
                     if (code.length == 6) {
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
-                      String? userRole = prefs.getString('user_role');
+                      await prefs.setString('user_role', role);
+                      print("Retrieved user role: $role");
 
-                      print(
-                          "Retrieved user role: \$userRole"); // Debugging print
-
-                      if (userRole != null && userRole.isNotEmpty) {
-                        _navigateToHomePage(context, userRole);
+                      if (role.isNotEmpty) {
+                        _navigateToHomePage(context, role);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -113,7 +119,8 @@ class VerificationPage extends StatelessWidget {
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Please enter a valid code.")),
+                        const SnackBar(
+                            content: Text("Please enter a valid code.")),
                       );
                     }
                   },
@@ -140,16 +147,17 @@ class VerificationPage extends StatelessWidget {
     );
   }
 
-  void _navigateToHomePage(BuildContext context, String userRole) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-        'user_role', userRole); // Ensure it's stored correctly
-
-    print("Navigating to home page with role: $userRole");
-
+  void _navigateToHomePage(BuildContext context, String userRole) {
+    if (userRole == 'Clinic') {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ClinicHomePage()),
+      );
+      return;
+    }
     Widget homePage;
     switch (userRole) {
-      case 'Swimmer or Parent': // ✅ Handle both as one
+      case 'Swimmer or Parent':
         homePage = SwimmerHomePage(userRole: userRole);
         break;
       case 'Coach':
@@ -158,13 +166,13 @@ class VerificationPage extends StatelessWidget {
       case 'Academy':
         homePage = AcademyHomePage();
         break;
-      case 'Vendor':
+      case 'Store':
         homePage = VendorHomePage();
         break;
       default:
-        print("User role not found!"); // Debugging
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("User role not found. Please log in again.")),
+          const SnackBar(
+              content: Text("User role not found. Please log in again.")),
         );
         return;
     }

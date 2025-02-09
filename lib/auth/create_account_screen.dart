@@ -40,7 +40,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const WelcomePage()),
             );
@@ -95,7 +95,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               ),
               TextFormField(
                 controller: _confirmPasswordController,
-                decoration: const InputDecoration(labelText: 'Confirm Password'),
+                decoration:
+                    const InputDecoration(labelText: 'Confirm Password'),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -137,10 +138,11 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     await prefs.setString('user_role', _selectedRole!);
                     print("User role saved: ${_selectedRole!}");
 
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => VerificationPage()),
+                          builder: (context) =>
+                              VerificationPage(role: _selectedRole!)),
                     );
                   }
                 },

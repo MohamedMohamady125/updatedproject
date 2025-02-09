@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import '../../profile/profile_page.dart';
-import '../academies/my_branches_screen.dart';
-import '../academies/register_branch_screen.dart';
-import '../academies/bookings_screen.dart';
-import '../academies/add_listing_screen.dart';
-import '../academies/manual_booking_screen.dart';
+import '../clinic/clinic_service_page.dart';
+import '../clinic/clinic_bookings_screen.dart';
+import '../clinic/clinic_register_branch.dart';
 
-class AcademyHomePage extends StatefulWidget {
-  const AcademyHomePage({super.key});
+class ClinicHomePage extends StatefulWidget {
+  const ClinicHomePage({super.key});
 
   @override
-  _AcademyHomePageState createState() => _AcademyHomePageState();
+  _ClinicHomePageState createState() => _ClinicHomePageState();
 }
 
-class _AcademyHomePageState extends State<AcademyHomePage>
+class _ClinicHomePageState extends State<ClinicHomePage>
     with TickerProviderStateMixin {
-  final String userRole = 'Academy';
+  final String userRole = 'Clinic';
   AnimationController? animationController;
   bool multiple = true;
 
@@ -28,14 +26,9 @@ class _AcademyHomePageState extends State<AcademyHomePage>
 
     homeItems = [
       {
-        'title': 'My Branches',
-        'icon': Icons.business,
-        'screen': MyBranchesScreen(role: 'Academy')
-      },
-      {
-        'title': 'Register Branch',
-        'icon': Icons.add_business,
-        'screen': RegisterBranchScreen(role: 'Academy')
+        'title': 'My Services',
+        'icon': Icons.design_services,
+        'screen': MyServicesScreen(role: 'Clinic')
       },
       {
         'title': 'Bookings',
@@ -43,16 +36,9 @@ class _AcademyHomePageState extends State<AcademyHomePage>
         'screen': BookingsScreen()
       },
       {
-        'title': 'Add Listings',
-        'icon': Icons.add_box,
-        'screen': AddListingScreen()
-      },
-      {
-        'title': 'Manual Bookings',
-        'icon': Icons.event,
-        'screen': ManualBookingsButton(
-          userListings: [],
-        )
+        'title': 'Register Clinic',
+        'icon': Icons.add_business,
+        'screen': RegisterBranchScreen(role: 'Clinic')
       },
     ];
 
@@ -69,7 +55,7 @@ class _AcademyHomePageState extends State<AcademyHomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Academy Dashboard'),
+        title: const Text('Clinic Dashboard'),
         centerTitle: true,
       ),
       body: Padding(

@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => VerificationPage(
-                            forPasswordReset: true,
+                            forPasswordReset: true, role: '',
                           ),
                         ),
                       );
